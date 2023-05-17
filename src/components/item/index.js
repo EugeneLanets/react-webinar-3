@@ -5,14 +5,7 @@ import './style.css';
 
 function Item(props){
 
-  // Счётчик выделений
-  const [count, setCount] = useState(0);
-
   const callbacks = {
-    onDelete: (e) => {
-      e.stopPropagation();
-      props.onDelete(props.item.code);
-    }
   }
 
   return (
@@ -22,8 +15,8 @@ function Item(props){
         {props.item.title}
       </div>
       <div className='Item-actions'>
-        <button onClick={callbacks.onDelete}>
-          Удалить
+        <button >
+          Добавить
         </button>
       </div>
     </div>
