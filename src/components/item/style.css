@@ -9,8 +9,8 @@
 }
 
 .Item-title {
-  width: 100%;
   padding: 20px 10px;
+  width: 100%;
 }
 
 .Item-price {
@@ -20,12 +20,12 @@
   line-height: 21px;
 }
 .Item-quantity {
+  margin-left: 40px;
   padding: 20px 10px;
   color: #404040;
   font-size: 18px;
   line-height: 21px;
   white-space: nowrap;
-  margin-left: 40px
 }
 
 .Item-actions {

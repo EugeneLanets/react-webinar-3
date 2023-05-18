@@ -1,5 +1,3 @@
-import {generateCode} from "./utils";
-
 /**
  * Хранилище состояния приложения
  */
@@ -18,8 +16,8 @@ class Store {
     this.listeners.push(listener);
     // Возвращается функция для удаления добавленного слушателя
     return () => {
-      this.listeners = this.listeners.filter(item => item !== listener);
-    }
+      this.listeners = this.listeners.filter((item) => item !== listener);
+    };
   }
 
   /**
@@ -54,12 +52,12 @@ class Store {
               return {
                 ...item,
                 quantity: item.quantity + 1,
-              }
+              };
             }
             return item;
-          })
-        ]
-      })
+          }),
+        ],
+      });
     } else {
       this.setState({
         ...this.state,
@@ -68,19 +66,21 @@ class Store {
           {
             ...this.state.list.find((item) => item.code === code),
             quantity: 1,
-          }
-        ]
-      })
+          },
+        ],
+      });
     }
   }
 
+  /**
+   * Удаление товара из корзины
+   * @param code
+   */
   removeFromCart(code) {
     this.setState({
       ...this.state,
-      cart: [
-        ...this.state.cart.filter((item) => item.code !== code)
-      ]
-    })
+      cart: [...this.state.cart.filter((item) => item.code !== code)],
+    });
   }
 }
 
