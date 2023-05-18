@@ -1,11 +1,12 @@
-import React, {useState} from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import {plural, priceFormatter} from "../../utils";
+import {priceFormatter} from "../../utils";
 import './style.css';
 
 function Item(props){
 
   const callbacks = {
+    onAddToCart: props.onAddToCart
   }
 
   return (
@@ -18,7 +19,7 @@ function Item(props){
         {priceFormatter(props.item.price)}
       </div>
       <div className='Item-actions'>
-        <button onClick={() => props.onAddToCart(props.item.code)}>
+        <button onClick={() => callbacks.onAddToCart(props.item.code)}>
           Добавить
         </button>
       </div>
@@ -33,13 +34,11 @@ Item.propTypes = {
     selected: PropTypes.bool,
     count: PropTypes.number
   }).isRequired,
-  onDelete: PropTypes.func,
-  onSelect: PropTypes.func
+  onAddToCart: PropTypes.func,
 };
 
 Item.defaultProps = {
-  onDelete: () => {},
-  onSelect: () => {},
+  onAddToCart: () => {},
 }
 
 export default React.memo(Item);

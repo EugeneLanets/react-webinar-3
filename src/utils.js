@@ -16,8 +16,16 @@ export function plural(value, variants = {}, locale = 'ru-RU') {
   return variants[key] || '';
 }
 
-export function priceFormatter(value, currency='RUB') {
-  return new Intl.NumberFormat('ru-RU', {
+/**
+ * Форматирование цены товара
+ * возвращает цену товара с разделением на разряды и обозначением валюты
+ * @param value {Number} Цена товара
+ * @param currency {String} Код валюты
+ * @param [locale] {String} Локаль (код языка)
+ * @returns {string}
+ */
+export function priceFormatter(value, currency='RUB', locale= 'ru-RU') {
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currency,
     minimumFractionDigits: 0,
@@ -57,4 +65,15 @@ export const generateCode1 = (function (start = 0) {
  */
 export function generateCode2() {
   return generateCode2.value ? ++generateCode2.value : generateCode2.value = 1;
+}
+
+/**
+ * Получить стоимость всех товаров в корзине
+ * @param cart {{code: Number, title: string, price: Number, quantity: Number }[]}
+ * @returns {*}
+ */
+export function getCartTotalPrice(cart) {
+  return cart.reduce((acc, item) => {
+    return acc + item.price * item.quantity
+  }, 0)
 }
