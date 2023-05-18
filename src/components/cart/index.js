@@ -4,11 +4,27 @@ import './style.css';
 import Modal from "../modal";
 import Head from "../head";
 import List from "../list";
+import {getCartTotalPrice, priceFormatter} from "../../utils";
 
 function Cart({cart, onCartClose, onItemDelete}) {
   const callbacks = {
     onCartClose
   }
+
+  const TotalList = () => (
+    <>
+      <List list={cart} isInCart={true} onItemAction={onItemDelete} />
+      <div className="Cart-total">
+        <b>
+          Итого
+          <span className='Cart-total-price'>
+            {priceFormatter(getCartTotalPrice(cart))}
+          </span>
+        </b>
+      </div>
+    </>
+  );
+
   return (
     <Modal>
       <div className="Cart">
@@ -19,7 +35,7 @@ function Cart({cart, onCartClose, onItemDelete}) {
         </Head>
         {
           cart.length
-            ? <List list={cart} isInCart={true} onItemAction={onItemDelete}></List>
+            ? <TotalList />
             : <div className='Cart-empty'>В корзине ничего нет</div>
         }
       </div>
