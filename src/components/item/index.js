@@ -18,7 +18,7 @@ function Item(props){
         {priceFormatter(props.item.price)}
       </div>
       <div className='Item-actions'>
-        <button >
+        <button onClick={() => props.onAddToCart(props.item.code)}>
           Добавить
         </button>
       </div>
