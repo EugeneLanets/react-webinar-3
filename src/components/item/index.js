@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import PropTypes from "prop-types";
-import {plural} from "../../utils";
+import {plural, priceFormatter} from "../../utils";
 import './style.css';
 
 function Item(props){
@@ -13,6 +13,9 @@ function Item(props){
       <div className='Item-code'>{props.item.code}</div>
       <div className='Item-title'>
         {props.item.title}
+      </div>
+      <div className="Item-price">
+        {priceFormatter(props.item.price)}
       </div>
       <div className='Item-actions'>
         <button >
