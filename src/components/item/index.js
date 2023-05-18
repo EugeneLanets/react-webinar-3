@@ -1,30 +1,24 @@
-import React from "react";
-import PropTypes from "prop-types";
-import {priceFormatter} from "../../utils";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { priceFormatter } from '../../utils';
+import { cn as bem } from '@bem-react/classname';
 import './style.css';
 
-function Item(props){
-
+function Item(props) {
+  const cn = bem('Item');
   const callbacks = {
-    onClick: props.onClick
-  }
+    onClick: props.onClick,
+  };
 
   return (
-    <div className='Item'>
-      <div className='Item-code'>{props.item.code}</div>
-      <div className='Item-title'>
-        {props.item.title}
-      </div>
-      <div className="Item-price">
-        {priceFormatter(props.item.price)}
-      </div>
-      { props.item.quantity
-          ? <div className="Item-quantity">
-              {`${props.item.quantity} шт`}
-            </div>
-          : null
-      }
-      <div className='Item-actions'>
+    <div className={cn()}>
+      <div className={cn('code')}>{props.item.code}</div>
+      <div className={cn('title')}>{props.item.title}</div>
+      <div className={cn('price')}>{priceFormatter(props.item.price)}</div>
+      {props.item.quantity ? (
+        <div className={cn('quantity')}>{`${props.item.quantity} шт`}</div>
+      ) : null}
+      <div className={cn('actions')}>
         <button onClick={() => callbacks.onClick(props.item.code)}>
           {props.actionText}
         </button>
@@ -37,17 +31,15 @@ Item.propTypes = {
   item: PropTypes.shape({
     code: PropTypes.number,
     title: PropTypes.string,
-    selected: PropTypes.bool,
-    count: PropTypes.number,
-    quantity: PropTypes.number
+    price: PropTypes.number,
+    quantity: PropTypes.number,
   }).isRequired,
   actionText: PropTypes.string,
   onClick: PropTypes.func,
 };
 
 Item.defaultProps = {
-  onClick: () => {},
-  actionText: 'Нажать'
-}
+  actionText: 'Нажать',
+};
 
 export default React.memo(Item);

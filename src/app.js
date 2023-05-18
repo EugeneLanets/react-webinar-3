@@ -4,6 +4,7 @@ import CartReview from './components/cart-review';
 import Head from './components/head';
 import PageLayout from './components/page-layout';
 import Cart from './components/cart';
+import PropTypes from 'prop-types';
 
 /**
  * Приложение
@@ -54,5 +55,7 @@ function App({ store }) {
     </PageLayout>
   );
 }
-
+App.propTypes = {
+  store: PropTypes.object,
+};
 export default App;
