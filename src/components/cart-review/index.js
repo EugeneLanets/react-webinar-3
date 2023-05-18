@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import './style.css';
 import {getCartTotalPrice, plural, priceFormatter} from "../../utils";
 
-function CartReview({cart}){
+function CartReview({cart, onCartOpen}){
+  const callbacks = {
+    onCartOpen
+  }
   const getText = (cart) => {
     const quantity = cart.length;
     const word = plural(cart.length, {one: 'товар', few: 'товара', many: 'товаров'});
@@ -12,7 +15,7 @@ function CartReview({cart}){
 
     return `${quantity} ${word} / ${formattedTotalPrice}`;
   }
-  
+
   return (
     <div className='CartReview'>
       <div className='CartReview-text'>
@@ -25,22 +28,22 @@ function CartReview({cart}){
         </b>
       </div>
       <div className="CartReview-actions">
-        <button onClick={() => onAdd()}>Перейти</button>
+        <button onClick={() => callbacks.onCartOpen()}>Перейти</button>
       </div>
     </div>
   )
 }
 
 CartReview.propTypes = {
-  card: PropTypes.arrayOf(PropTypes.shape({
+  cart: PropTypes.arrayOf(PropTypes.shape({
     price: PropTypes.number,
     quantity: PropTypes.number
   })).isRequired,
-  onAdd: PropTypes.func
+  onCartOpen: PropTypes.func
 };
 
 CartReview.defaultProps = {
-  onAdd: () => {}
+  onCartOpen: () => {}
 }
 
 export default React.memo(CartReview);
