@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import './style.css';
 
 function Head({title, classNames = [], children}){
-  const cn = bem('Head')
+  const cn = bem('Head');
   return (
     <div className={cn(null, [...classNames])}>
       <h1>{title}</h1>

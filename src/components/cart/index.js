@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import './style.css';
-import Modal from "../Modal";
+import Modal from "../modal";
 import Head from "../head";
 import List from "../list";
 
-function Cart({cart, onCartClose}) {
+function Cart({cart, onCartClose, onItemDelete}) {
   const callbacks = {
     onCartClose
   }
@@ -19,7 +19,7 @@ function Cart({cart, onCartClose}) {
         </Head>
         {
           cart.length
-            ? <List list={cart}></List>
+            ? <List list={cart} isInCart={true} onItemAction={onItemDelete}></List>
             : <div className='Cart-empty'>В корзине ничего нет</div>
         }
       </div>
@@ -29,4 +29,4 @@ function Cart({cart, onCartClose}) {
 
 
 
-export default Cart;
+export default React.memo(Cart);

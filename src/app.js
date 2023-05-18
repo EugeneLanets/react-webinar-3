@@ -3,7 +3,6 @@ import List from "./components/list";
 import CartReview from "./components/cart-review";
 import Head from "./components/head";
 import PageLayout from "./components/page-layout";
-import Modal from "./components/Modal";
 import Cart from "./components/cart";
 
 /**
@@ -20,12 +19,18 @@ function App({store}) {
     onAddToCart: useCallback((code) => {
       store.addToCart(code)
     }, [store]),
+
+    onItemDelete: useCallback((code) => {
+      store.removeFromCart(code)
+    }, [store]),
+
     onCartOpen: useCallback(() => {
       setCartShown(true);
     }, []),
+
     onCartClose: useCallback(() => {
       setCartShown(false)
-    }, [])
+    }, []),
   }
 
   return (
@@ -34,10 +39,14 @@ function App({store}) {
       <CartReview cart={cart} onCartOpen={callbacks.onCartOpen}/>
       <List
         list={list}
-        onAddToCart={callbacks.onAddToCart}
+        onItemAction={callbacks.onAddToCart}
       />
       {isCartShown
-        ? <Cart cart={cart} onCartClose={callbacks.onCartClose}/>
+        ? <Cart
+            cart={cart}
+            onCartClose={callbacks.onCartClose}
+            onItemDelete={callbacks.onItemDelete}
+          />
         : null
       }
     </PageLayout>

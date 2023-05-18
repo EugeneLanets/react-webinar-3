@@ -6,7 +6,7 @@ import './style.css';
 function Item(props){
 
   const callbacks = {
-    onAddToCart: props.onAddToCart
+    onClick: props.onClick
   }
 
   return (
@@ -18,9 +18,15 @@ function Item(props){
       <div className="Item-price">
         {priceFormatter(props.item.price)}
       </div>
+      { props.item.quantity
+          ? <div className="Item-quantity">
+              {`${props.item.quantity} шт`}
+            </div>
+          : null
+      }
       <div className='Item-actions'>
-        <button onClick={() => callbacks.onAddToCart(props.item.code)}>
-          Добавить
+        <button onClick={() => callbacks.onClick(props.item.code)}>
+          {props.actionText}
         </button>
       </div>
     </div>
@@ -32,13 +38,16 @@ Item.propTypes = {
     code: PropTypes.number,
     title: PropTypes.string,
     selected: PropTypes.bool,
-    count: PropTypes.number
+    count: PropTypes.number,
+    quantity: PropTypes.number
   }).isRequired,
-  onAddToCart: PropTypes.func,
+  actionText: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 Item.defaultProps = {
-  onAddToCart: () => {},
+  onClick: () => {},
+  actionText: 'Нажать'
 }
 
 export default React.memo(Item);
