@@ -22,6 +22,9 @@ function App({store}) {
     }, [store]),
     onCartOpen: useCallback(() => {
       setCartShown(true);
+    }, []),
+    onCartClose: useCallback(() => {
+      setCartShown(false)
     }, [])
   }
 
@@ -33,7 +36,10 @@ function App({store}) {
         list={list}
         onAddToCart={callbacks.onAddToCart}
       />
-      {isCartShown ? <Cart cart={cart}/> : null}
+      {isCartShown
+        ? <Cart cart={cart} onCartClose={callbacks.onCartClose}/>
+        : null
+      }
     </PageLayout>
   );
 }
