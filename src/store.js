@@ -49,17 +49,15 @@ class Store {
         cart: {
           ...this.state.cart,
           totalPrice: this.state.cart.totalPrice + itemInCart.price,
-          items: [
-            ...this.state.cart.items.map((item) => {
-              if (item.code === code) {
-                return {
-                  ...item,
-                  quantity: item.quantity + 1,
-                };
-              }
-              return item;
-            }),
-          ],
+          items: this.state.cart.items.map((item) => {
+            if (item.code === code) {
+              return {
+                ...item,
+                quantity: item.quantity + 1,
+              };
+            }
+            return item;
+          }),
         },
       });
     } else {
@@ -80,9 +78,17 @@ class Store {
    * @param code
    */
   removeFromCart(code) {
+    const deletedItem = this.state.cart.items.find(
+      (item) => item.code === code
+    );
     this.setState({
       ...this.state,
-      cart: [...this.state.cart.filter((item) => item.code !== code)],
+      cart: {
+        itemsQuantity: this.state.cart.itemsQuantity - 1,
+        totalPrice:
+          this.state.cart.totalPrice - deletedItem.price * deletedItem.quantity,
+        items: this.state.cart.items.filter((item) => item.code !== code),
+      },
     });
   }
 }
