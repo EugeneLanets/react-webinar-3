@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.css';
 import { cn as bem } from '@bem-react/classname';
-import { getCartTotalPrice, plural, priceFormatter } from '../../utils';
+import { plural, priceFormatter } from '../../utils';
 
 function CartReview({ cart, onCartOpen }) {
   const cn = bem('CartReview');
@@ -10,23 +10,21 @@ function CartReview({ cart, onCartOpen }) {
     onCartOpen,
   };
   const getText = (cart) => {
-    const quantity = cart.length;
-    const word = plural(cart.length, {
+    const word = plural(cart.itemsQuantity, {
       one: 'товар',
       few: 'товара',
       many: 'товаров',
     });
-    const totalPrice = getCartTotalPrice(cart);
-    const formattedTotalPrice = priceFormatter(totalPrice);
+    const formattedTotalPrice = priceFormatter(cart.totalPrice);
 
-    return `${quantity} ${word} / ${formattedTotalPrice}`;
+    return `${cart.itemsQuantity} ${word} / ${formattedTotalPrice}`;
   };
 
   return (
     <div className={cn()}>
       <div className={cn('text')}>
         {'В корзине: '}
-        <b>{cart.length ? getText(cart) : 'пусто'}</b>
+        <b>{cart.itemsQuantity ? getText(cart) : 'пусто'}</b>
       </div>
       <div className={cn('actions')}>
         <button onClick={() => callbacks.onCartOpen()}>Перейти</button>
@@ -35,13 +33,25 @@ function CartReview({ cart, onCartOpen }) {
   );
 }
 
+// items: PropTypes.arrayOf(
+//   PropTypes.shape()),
+//{
+// //     price: PropTypes.number,
+// //     quantity: PropTypes.number,
+// //   }
+// }
+
 CartReview.propTypes = {
-  cart: PropTypes.arrayOf(
-    PropTypes.shape({
-      price: PropTypes.number,
-      quantity: PropTypes.number,
-    })
-  ).isRequired,
+  cart: PropTypes.shape({
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        price: PropTypes.number,
+        quantity: PropTypes.number,
+      })
+    ),
+    itemsQuantity: PropTypes.number,
+    totalPrice: PropTypes.number,
+  }).isRequired,
   onCartOpen: PropTypes.func,
 };
 

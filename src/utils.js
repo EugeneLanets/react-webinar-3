@@ -40,14 +40,3 @@ export function priceFormatter(value, currency = 'RUB', locale = 'ru-RU') {
 export const generateCode = (function (start = 0) {
   return () => ++start;
 })();
-
-/**
- * Получить стоимость всех товаров в корзине
- * @param cart {{code: number, title: string, price: number, quantity: number}[]}
- * @returns {*}
- */
-export function getCartTotalPrice(cart) {
-  return cart.reduce((acc, item) => {
-    return acc + item.price * item.quantity;
-  }, 0);
-}

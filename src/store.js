@@ -42,32 +42,35 @@ class Store {
    * Добавление товара в корзину
    */
   addToCart(code) {
-    const itemInCart = this.state.cart.find((item) => item.code === code);
+    const itemInCart = this.state.cart.items.find((item) => item.code === code);
     if (itemInCart) {
       this.setState({
         ...this.state,
-        cart: [
-          ...this.state.cart.map((item) => {
-            if (item.code === code) {
-              return {
-                ...item,
-                quantity: item.quantity + 1,
-              };
-            }
-            return item;
-          }),
-        ],
+        cart: {
+          ...this.state.cart,
+          totalPrice: this.state.cart.totalPrice + itemInCart.price,
+          items: [
+            ...this.state.cart.items.map((item) => {
+              if (item.code === code) {
+                return {
+                  ...item,
+                  quantity: item.quantity + 1,
+                };
+              }
+              return item;
+            }),
+          ],
+        },
       });
     } else {
+      const newItem = this.state.list.find((item) => item.code === code);
       this.setState({
         ...this.state,
-        cart: [
-          ...this.state.cart,
-          {
-            ...this.state.list.find((item) => item.code === code),
-            quantity: 1,
-          },
-        ],
+        cart: {
+          itemsQuantity: this.state.cart.itemsQuantity + 1,
+          totalPrice: this.state.cart.totalPrice + newItem.price,
+          items: [...this.state.cart.items, { ...newItem, quantity: 1 }],
+        },
       });
     }
   }

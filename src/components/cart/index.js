@@ -7,7 +7,7 @@ import Head from '../head';
 import List from '../list';
 
 import { cn as bem } from '@bem-react/classname';
-import { getCartTotalPrice, priceFormatter } from '../../utils';
+import { priceFormatter } from '../../utils';
 import CartItem from '../сart-item';
 
 function Cart(props) {
@@ -20,7 +20,7 @@ function Cart(props) {
   const TotalList = () => (
     <>
       <List
-        list={props.cart}
+        list={props.cart.items}
         ListItem={CartItem}
         onItemAction={callbacks.onItemDelete}
       />
@@ -28,7 +28,7 @@ function Cart(props) {
         <b>
           Итого
           <span className={cn('total-price')}>
-            {priceFormatter(getCartTotalPrice(props.cart))}
+            {priceFormatter(props.cart.totalPrice)}
           </span>
         </b>
       </div>
@@ -43,7 +43,7 @@ function Cart(props) {
             <button onClick={callbacks.onCartClose}>Закрыть</button>
           </div>
         </Head>
-        {props.cart.length ? (
+        {props.cart.itemsQuantity ? (
           <TotalList />
         ) : (
           <div className={cn('empty')}>В корзине ничего нет</div>
@@ -53,14 +53,16 @@ function Cart(props) {
   );
 }
 Cart.propTypes = {
-  cart: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.number,
-      title: PropTypes.string,
-      count: PropTypes.number,
-      quantity: PropTypes.number,
-    })
-  ),
+  cart: PropTypes.shape({
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        price: PropTypes.number,
+        quantity: PropTypes.number,
+      })
+    ),
+    itemsQuantity: PropTypes.number,
+    totalPrice: PropTypes.number,
+  }).isRequired,
   onCartClose: PropTypes.func,
   onItemDelete: PropTypes.func,
 };
