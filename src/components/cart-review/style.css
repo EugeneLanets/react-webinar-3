@@ -1,7 +1,6 @@
 .CartReview {
   display: flex;
   justify-content: flex-end;
-  border-bottom: 1px dashed #ccc;
 }
 
 .CartReview-text {

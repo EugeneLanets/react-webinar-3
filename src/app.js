@@ -5,6 +5,7 @@ import Head from './components/head';
 import PageLayout from './components/page-layout';
 import Cart from './components/cart';
 import PropTypes from 'prop-types';
+import Item from './components/item';
 
 /**
  * Приложение
@@ -44,7 +45,7 @@ function App({ store }) {
     <PageLayout>
       <Head title="Магазин" />
       <CartReview cart={cart} onCartOpen={callbacks.onCartOpen} />
-      <List list={list} onItemAction={callbacks.onAddToCart} />
+      <List list={list} onItemAction={callbacks.onAddToCart} ListItem={Item} />
       {isCartShown ? (
         <Cart
           cart={cart}

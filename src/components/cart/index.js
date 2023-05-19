@@ -8,6 +8,7 @@ import List from '../list';
 
 import { cn as bem } from '@bem-react/classname';
 import { getCartTotalPrice, priceFormatter } from '../../utils';
+import CartItem from '../сart-item';
 
 function Cart(props) {
   const cn = bem('Cart');
@@ -20,7 +21,7 @@ function Cart(props) {
     <>
       <List
         list={props.cart}
-        isInCart={true}
+        ListItem={CartItem}
         onItemAction={callbacks.onItemDelete}
       />
       <div className={cn('total')}>

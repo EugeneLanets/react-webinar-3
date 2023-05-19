@@ -1,10 +1,9 @@
 import React from 'react';
 import { cn as bem } from '@bem-react/classname';
 import PropTypes from 'prop-types';
-import Item from '../item';
 import './style.css';
 
-function List({ list, isInCart = false, onItemAction }) {
+function List({ list, ListItem, onItemAction }) {
   const callbacks = {
     onItemAction,
   };
@@ -12,14 +11,10 @@ function List({ list, isInCart = false, onItemAction }) {
   const cn = bem('List');
 
   return (
-    <div className={cn({ ['in-cart']: isInCart })}>
+    <div className={cn()}>
       {list.map((item) => (
         <div key={item.code} className={cn('item')}>
-          <Item
-            item={item}
-            actionText={isInCart ? 'Удалить' : 'Добавить'}
-            onClick={callbacks.onItemAction}
-          />
+          <ListItem item={item} onClick={callbacks.onItemAction} />
         </div>
       ))}
     </div>
@@ -32,12 +27,8 @@ List.propTypes = {
       code: PropTypes.number,
     })
   ).isRequired,
-  isInCart: PropTypes.bool,
+  ListItem: PropTypes.node.isRequired,
   onItemAction: PropTypes.func,
-};
-
-List.defaultProps = {
-  isInCart: false,
 };
 
 export default React.memo(List);
