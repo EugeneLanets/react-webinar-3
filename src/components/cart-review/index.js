@@ -4,27 +4,27 @@ import './style.css';
 import { cn as bem } from '@bem-react/classname';
 import { plural, priceFormatter } from '../../utils';
 
-function CartReview({ cart, onCartOpen }) {
+function CartReview({ itemsQuantity, totalPrice, onCartOpen }) {
   const cn = bem('CartReview');
   const callbacks = {
     onCartOpen,
   };
-  const getText = (cart) => {
-    const word = plural(cart.itemsQuantity, {
+  const getText = () => {
+    const word = plural(itemsQuantity, {
       one: 'товар',
       few: 'товара',
       many: 'товаров',
     });
-    const formattedTotalPrice = priceFormatter(cart.totalPrice);
+    const formattedTotalPrice = priceFormatter(totalPrice);
 
-    return `${cart.itemsQuantity} ${word} / ${formattedTotalPrice}`;
+    return `${itemsQuantity} ${word} / ${formattedTotalPrice}`;
   };
 
   return (
     <div className={cn()}>
       <div className={cn('text')}>
         {'В корзине: '}
-        <b>{cart.itemsQuantity ? getText(cart) : 'пусто'}</b>
+        <b>{itemsQuantity ? getText() : 'пусто'}</b>
       </div>
       <div className={cn('actions')}>
         <button onClick={() => callbacks.onCartOpen()}>Перейти</button>
@@ -42,17 +42,9 @@ function CartReview({ cart, onCartOpen }) {
 // }
 
 CartReview.propTypes = {
-  cart: PropTypes.shape({
-    items: PropTypes.arrayOf(
-      PropTypes.shape({
-        price: PropTypes.number,
-        quantity: PropTypes.number,
-      })
-    ),
-    itemsQuantity: PropTypes.number,
-    totalPrice: PropTypes.number,
-  }).isRequired,
-  onCartOpen: PropTypes.func,
+  itemsQuantity: PropTypes.number.isRequired,
+  totalPrice: PropTypes.number.isRequired,
+  onCartOpen: PropTypes.func.isRequired,
 };
 
 export default React.memo(CartReview);

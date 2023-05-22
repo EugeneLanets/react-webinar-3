@@ -44,7 +44,11 @@ function App({ store }) {
   return (
     <PageLayout>
       <Head title="Магазин" />
-      <CartReview cart={cart} onCartOpen={callbacks.onCartOpen} />
+      <CartReview
+        itemsQuantity={cart.itemsQuantity}
+        totalPrice={cart.totalPrice}
+        onCartOpen={callbacks.onCartOpen}
+      />
       <List list={list} onItemAction={callbacks.onAddToCart} ListItem={Item} />
       {isCartShown ? (
         <Cart
