@@ -1,8 +1,9 @@
 import useSelector from '../../store/use-selector';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
-import usePagination from './use-pagination';
-function Pagination() {
+import usePagination, { DOTS } from './use-pagination';
+import PropTypes from 'prop-types';
+function Pagination({ onPageChange }) {
   const totalPages = useSelector((state) => state.catalog.totalPages);
   const currentPage = useSelector((state) => state.catalog.currentPage);
   const cn = bem('Pagination');
@@ -13,23 +14,37 @@ function Pagination() {
 
   if (totalPages < 2) return null;
 
-  console.log(pages);
-
   return (
     <div className={cn()}>
-      {pages.map((item) => {
+      {pages.map((item, idx) => {
         const isActive = item === currentPage;
+        if (item === DOTS) {
+          return (
+            <span className={cn('dots')} key={idx}>
+              {item}
+            </span>
+          );
+        }
+
         return (
-          <a
-            href={!isActive && '#'}
-            className={cn('item', { active: isActive })}
-            key={item}
+          <button
+            disabled={isActive}
+            className={cn('item')}
+            key={idx}
+            onClick={() => {
+              console.log('1111');
+              onPageChange(item);
+            }}
           >
             {item}
-          </a>
+          </button>
         );
       })}
     </div>
   );
 }
+
+Pagination.propTypes = {
+  onPageChange: PropTypes.func,
+};
 export default Pagination;

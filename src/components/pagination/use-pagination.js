@@ -1,13 +1,11 @@
 import { useMemo } from 'react';
 import { range } from '../../utils';
 
+export const DOTS = '…';
 export default function usePagination({ totalPages, currentPage }) {
-  const items = useMemo(() => {
+  return useMemo(() => {
     const ITEMS_NUMBER = 7;
-    const DOTS = '…';
-    console.log(totalPages);
     if (ITEMS_NUMBER >= totalPages) {
-      console.log('Option 1');
       return range(1, totalPages);
     }
 
@@ -15,24 +13,21 @@ export default function usePagination({ totalPages, currentPage }) {
     const rightSibling = Math.min(currentPage + 1, totalPages);
 
     const showLeftDots = leftSibling > 2;
-    const showRightDots = rightSibling < totalPages - 2;
+    const showRightDots = rightSibling < totalPages - 1;
 
     if (!showLeftDots && showRightDots) {
-      console.log('Option 2');
-      console.log(rightSibling);
-      return [...range(1, rightSibling + 1), DOTS, totalPages];
+      const lastItem = currentPage === 1 ? rightSibling + 1 : rightSibling;
+      return [...range(1, lastItem), DOTS, totalPages];
     }
 
     if (showLeftDots && !showRightDots) {
-      console.log('Option 3');
-      return [1, DOTS, ...range(leftSibling - 1, totalPages)];
+      const firstItem =
+        currentPage === totalPages ? leftSibling - 1 : leftSibling;
+      return [1, DOTS, ...range(firstItem, totalPages)];
     }
 
     if (showLeftDots && showRightDots) {
-      console.log('Option 4');
       return [1, DOTS, ...range(leftSibling, rightSibling), DOTS, totalPages];
     }
   }, [totalPages, currentPage]);
-
-  return items;
 }

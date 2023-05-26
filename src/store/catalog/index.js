@@ -35,6 +35,14 @@ class Catalog extends StoreModule {
       'Загружены товары из АПИ'
     );
   }
+
+  setCurrentPage(page) {
+    console.log('here');
+    this.setState({
+      ...this.getState(),
+      currentPage: page,
+    });
+  }
 }
 
 export default Catalog;
