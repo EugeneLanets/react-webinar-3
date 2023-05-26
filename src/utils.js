@@ -28,8 +28,13 @@ export function codeGenerator(start = 0) {
  * Форматирование разрядов числа
  * @param value {Number}
  * @param options {Object}
+ * @param locale {String}
  * @returns {String}
  */
 export function numberFormat(value, locale = 'ru-RU', options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
+}
+
+export function range(start, end) {
+  return Array.from({ length: end - start + 1 }, (_, idx) => idx + start);
 }
