@@ -20,25 +20,30 @@ class CatalogItem extends StoreModule {
     };
   }
 
-  async load() {
+  async load(id) {
     const baseUrl = '/api/v1/articles';
-    const { currentPage, itemsPerPage } = this.getState();
-    const url = `${baseUrl}?limit=${itemsPerPage}&skip=${
-      (currentPage - 1) * itemsPerPage
-    }&fields=items(_id,title,price),count`;
+
+    const url = `${baseUrl}/${id}?fields=*,madeIn(title,code),category(title)`;
 
     const response = await fetch(url);
     const json = await response.json();
-    const { items, count } = json.result;
-    const totalPages = Math.ceil(count / itemsPerPage);
+    const { _id, title, description, madeIn, edition, category, price } =
+      json.result;
 
     this.setState(
       {
-        ...this.getState(),
-        list: items,
-        totalPages,
+        _id,
+        title,
+        description,
+        country: {
+          title: madeIn.title,
+          code: madeIn.code,
+        },
+        category: category.title,
+        edition,
+        price,
       },
-      'Загружены товары из АПИ'
+      `Загружен товар ID=${id} из АПИ`
     );
   }
 }

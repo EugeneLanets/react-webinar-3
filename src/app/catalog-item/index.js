@@ -3,21 +3,19 @@ import BasketTool from '../../components/basket-tool';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
 import Head from '../../components/head';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ItemInfo from '../../components/item-info';
 
 function CatalogItem() {
   const store = useStore();
   const params = useParams();
-  console.log(params);
 
   const select = useSelector((state) => ({
     amount: state.basket.amount,
     sum: state.basket.sum,
   }));
   const item = useSelector((state) => state.catalogItem);
-  console.log(item);
 
   const callbacks = {
     // Открытие модалки корзины
@@ -26,6 +24,10 @@ function CatalogItem() {
       [store]
     ),
   };
+
+  useEffect(() => {
+    store.actions.catalogItem.load(params.itemId);
+  }, []);
 
   return (
     <PageLayout>

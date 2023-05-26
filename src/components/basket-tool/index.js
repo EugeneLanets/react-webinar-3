@@ -12,10 +12,10 @@ function BasketTool({ sum, amount, onOpen }) {
       <span className={cn('total')}>
         {amount
           ? `${amount} ${plural(amount, {
-              one: 'товар',
-              few: 'товара',
-              many: 'товаров',
-            })} / ${numberFormat(sum)} ₽`
+            one: 'товар',
+            few: 'товара',
+            many: 'товаров',
+          })} / ${numberFormat(sum)} ₽`
           : 'пусто'}
       </span>
       <button onClick={onOpen}>Перейти</button>

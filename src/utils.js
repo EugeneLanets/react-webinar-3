@@ -35,6 +35,22 @@ export function numberFormat(value, locale = 'ru-RU', options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
 
+/**
+ * Форматирование цены товара
+ * возвращает цену товара с разделением на разряды и обозначением валюты
+ * @param value {Number} Цена товара
+ * @param currency {String} Код валюты
+ * @param [locale] {String} Локаль (код языка)
+ * @returns {string}
+ */
+export function priceFormatter(value, currency = 'RUB', locale = 'ru-RU') {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: 0,
+  }).format(value);
+}
+
 export function range(start, end) {
   return Array.from({ length: end - start + 1 }, (_, idx) => idx + start);
 }
