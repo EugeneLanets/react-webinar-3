@@ -14,7 +14,6 @@ class Basket extends StoreModule {
    * @param _id Код товара
    */
   addToBasket(_id) {
-    console.log('Here');
     let sum = 0;
     // Ищем товар в корзине, чтобы увеличить его количество
     let exist = false;
