@@ -1,19 +1,8 @@
 import Main from './main';
 import Basket from './basket';
 import useSelector from '../store/use-selector';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CatalogItem from './catalog-item';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Main />,
-  },
-  {
-    path: '/catalog/:itemId',
-    element: <CatalogItem />,
-  },
-]);
 /**
  * Приложение
  * @returns {React.ReactElement}
@@ -23,8 +12,13 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
-      {activeModal === 'basket' && <Basket />}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/catalog/:itemId" element={<CatalogItem />} />
+        </Routes>
+        {activeModal === 'basket' && <Basket />}
+      </BrowserRouter>
     </>
   );
 }
