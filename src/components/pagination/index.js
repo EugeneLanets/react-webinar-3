@@ -3,13 +3,15 @@ import { cn as bem } from '@bem-react/classname';
 import './style.css';
 import usePagination, { DOTS } from './use-pagination';
 import PropTypes from 'prop-types';
+import { NavLink, useSearchParams } from 'react-router-dom';
 function Pagination({ onPageChange }) {
   const totalPages = useSelector((state) => state.catalog.totalPages);
-  const currentPage = useSelector((state) => state.catalog.currentPage);
+  const [queryParams] = useSearchParams();
+  const currentPage = Number(queryParams.get('page')) || 1;
   const cn = bem('Pagination');
   const pages = usePagination({
-    totalPages: totalPages,
-    currentPage: currentPage,
+    totalPages,
+    currentPage,
   });
 
   if (totalPages < 2) return null;
@@ -17,7 +19,6 @@ function Pagination({ onPageChange }) {
   return (
     <div className={cn()}>
       {pages.map((item, idx) => {
-        const isActive = item === currentPage;
         if (item === DOTS) {
           return (
             <span className={cn('dots')} key={idx}>
@@ -27,17 +28,17 @@ function Pagination({ onPageChange }) {
         }
 
         return (
-          <button
-            disabled={isActive}
-            className={cn('item')}
-            key={idx}
-            onClick={() => {
-              console.log('1111');
-              onPageChange(item);
+          <NavLink
+            to={item === 1 ? '/' : `/catalog/?page=${item}`}
+            className={({ isActive }) => {
+              console.log(isActive);
+              console.log(item, currentPage, item === currentPage);
+              return cn('item', { active: isActive && item === currentPage });
             }}
+            key={idx}
           >
             {item}
-          </button>
+          </NavLink>
         );
       })}
     </div>

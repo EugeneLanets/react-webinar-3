@@ -21,9 +21,9 @@ function Main() {
     currentPage: state.catalog.currentPage,
   }));
 
-  useEffect(() => {
-    store.actions.catalog.load();
-  }, [select.currentPage]);
+  // useEffect(() => {
+  //   store.actions.catalog.load();
+  // }, [select.currentPage]);
 
   const callbacks = {
     // Добавление в корзину

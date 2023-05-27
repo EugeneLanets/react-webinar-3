@@ -11,6 +11,13 @@ function Router() {
     await store.actions.catalogItem.load(params.itemId);
     return null;
   };
+
+  const pageLoader = async ({ request }) => {
+    const url = new URL(request.url);
+    const page = url.searchParams.get('page') ?? 1;
+    await store.actions.catalog.load(page);
+    return null;
+  };
   const router = createBrowserRouter([
     {
       path: '/',
@@ -18,8 +25,13 @@ function Router() {
       children: [
         {
           index: true,
-          path: '/',
           element: <Main />,
+          loader: pageLoader,
+        },
+        {
+          path: '/catalog',
+          element: <Main />,
+          loader: pageLoader,
         },
         {
           path: '/catalog/:itemId',
