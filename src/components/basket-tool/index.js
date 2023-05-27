@@ -3,13 +3,24 @@ import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import { numberFormat, plural } from '../../utils';
 import './style.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import useStore from '../../store/use-store';
 
 function BasketTool({ sum, amount, onOpen }) {
+  const store = useStore();
   const cn = bem('BasketTool');
+  const location = useLocation();
   return (
     <div className={cn()}>
-      <Link to="/" className={cn('link')}>
+      <Link
+        to="/"
+        className={cn('link')}
+        onClick={() => {
+          if (location.pathname === '/') {
+            store.actions.catalog.setCurrentPage(1);
+          }
+        }}
+      >
         Главная
       </Link>
       <span className={cn('label')}>В корзине:</span>
