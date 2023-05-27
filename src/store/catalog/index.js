@@ -9,7 +9,6 @@ class Catalog extends StoreModule {
     return {
       list: [],
       itemsPerPage: 10,
-      currentPage: 1,
       totalPages: 1,
     };
   }
@@ -30,7 +29,7 @@ class Catalog extends StoreModule {
       {
         ...this.getState(),
         list: items,
-        totalPages: 100,
+        totalPages,
       },
       'Загружены товары из АПИ'
     );
