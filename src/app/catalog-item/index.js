@@ -3,13 +3,11 @@ import BasketTool from '../../components/basket-tool';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
 import Head from '../../components/head';
-import { useCallback, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useCallback } from 'react';
 import ItemInfo from '../../components/item-info';
 
 function CatalogItem() {
   const store = useStore();
-  const params = useParams();
 
   const select = useSelector((state) => ({
     amount: state.basket.amount,
@@ -25,9 +23,9 @@ function CatalogItem() {
     ),
   };
 
-  useEffect(() => {
-    store.actions.catalogItem.load(params.itemId);
-  }, []);
+  // useEffect(() => {
+  //   store.actions.catalogItem.load(params.itemId);
+  // }, []);
 
   return (
     <PageLayout>
