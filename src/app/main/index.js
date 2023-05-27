@@ -18,12 +18,7 @@ function Main() {
     list: state.catalog.list,
     amount: state.basket.amount,
     sum: state.basket.sum,
-    currentPage: state.catalog.currentPage,
   }));
-
-  useEffect(() => {
-    store.actions.catalog.load();
-  }, [select.currentPage]);
 
   const callbacks = {
     // Добавление в корзину
@@ -34,12 +29,6 @@ function Main() {
     // Открытие модалки корзины
     openModalBasket: useCallback(
       () => store.actions.modals.open('basket'),
-      [store]
-    ),
-    setCurrentPage: useCallback(
-      (page) => {
-        store.actions.catalog.setCurrentPage(page);
-      },
       [store]
     ),
     //Смена языка
@@ -70,7 +59,7 @@ function Main() {
         sum={select.sum}
       />
       <List list={select.list} renderItem={renders.item} />
-      <Pagination onPageChange={callbacks.setCurrentPage} />
+      <Pagination />
     </PageLayout>
   );
 }

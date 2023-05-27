@@ -14,11 +14,11 @@ class Catalog extends StoreModule {
     };
   }
 
-  async load() {
+  async load(page) {
     const baseUrl = '/api/v1/articles';
-    const { currentPage, itemsPerPage } = this.getState();
+    const { itemsPerPage } = this.getState();
     const url = `${baseUrl}?limit=${itemsPerPage}&skip=${
-      (currentPage - 1) * itemsPerPage
+      (page - 1) * itemsPerPage
     }&fields=items(_id,title,price),count`;
 
     const response = await fetch(url);
@@ -30,7 +30,7 @@ class Catalog extends StoreModule {
       {
         ...this.getState(),
         list: items,
-        totalPages,
+        totalPages: 100,
       },
       'Загружены товары из АПИ'
     );

@@ -14,15 +14,7 @@ function BasketTool({ sum, amount, onOpen }) {
   const dict = useTranslation('basketTool');
   return (
     <div className={cn()}>
-      <Link
-        to="/"
-        className={cn('link')}
-        onClick={() => {
-          if (location.pathname === '/') {
-            store.actions.catalog.setCurrentPage(1);
-          }
-        }}
-      >
+      <Link to="/" className={cn('link')}>
         {dict.mainLink}
       </Link>
       <span className={cn('label')}>{dict.inCart}:</span>

@@ -19,12 +19,12 @@
 
 .Pagination-item:hover,
 .Pagination-item:focus {
-  cursor: pointer;
   background-color: #e1e1e1;
 }
 
-.Pagination-item:disabled {
-  cursor: default;
+.Pagination-item_active,
+.Pagination-item_active:focus,
+.Pagination-item_active:hover {
   background-color: #0087e9;
   color: #fff;
 }
