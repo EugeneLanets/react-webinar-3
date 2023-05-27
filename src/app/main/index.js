@@ -20,6 +20,13 @@ function Main() {
     sum: state.basket.sum,
   }));
 
+<<<<<<< HEAD
+=======
+  // useEffect(() => {
+  //   store.actions.catalog.load();
+  // }, [select.currentPage]);
+
+>>>>>>> ed87f3cc48449b085be615b17eed1202b336a431
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(
