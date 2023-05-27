@@ -7,9 +7,12 @@ import List from '../../components/list';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
 import Pagination from '../../components/pagination';
+import LangSwitcher from '../../components/LangSwitcher';
+import useTranslation from '../../store/use-translation';
 
 function Main() {
   const store = useStore();
+  const dict = useTranslation('head');
 
   const select = useSelector((state) => ({
     list: state.catalog.list,
@@ -39,6 +42,11 @@ function Main() {
       },
       [store]
     ),
+    //Смена языка
+    changeLanguage: useCallback(
+      (lang) => store.actions.language.setTranslation(lang),
+      [store]
+    ),
   };
 
   const renders = {
@@ -48,11 +56,14 @@ function Main() {
       },
       [callbacks.addToBasket]
     ),
+    langSwitch: useCallback(() => {
+      return <LangSwitcher onLangChange={callbacks.changeLanguage} />;
+    }, [callbacks.changeLanguage]),
   };
 
   return (
     <PageLayout>
-      <Head title="Магазин" />
+      <Head title={dict.title} render={renders.langSwitch} />
       <BasketTool
         onOpen={callbacks.openModalBasket}
         amount={select.amount}

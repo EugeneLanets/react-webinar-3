@@ -6,11 +6,12 @@ import PropTypes from 'prop-types';
 import './style.css';
 import { Link } from 'react-router-dom';
 import useStore from '../../store/use-store';
+import useTranslation from '../../store/use-translation';
 
 function ItemBasket(props) {
   const store = useStore();
   const cn = bem('ItemBasket');
-
+  const dict = useTranslation('cart');
   const callbacks = {
     onRemove: () => props.onRemove(props.item._id),
   };
@@ -29,10 +30,10 @@ function ItemBasket(props) {
       <div className={cn('right')}>
         <div className={cn('cell')}>{numberFormat(props.item.price)} ₽</div>
         <div className={cn('cell')}>
-          {numberFormat(props.item.amount || 0)} шт
+          {numberFormat(props.item.amount || 0)} {dict.unit}
         </div>
         <div className={cn('cell')}>
-          <button onClick={callbacks.onRemove}>Удалить</button>
+          <button onClick={callbacks.onRemove}>{dict.buttonDelete}</button>
         </div>
       </div>
     </div>

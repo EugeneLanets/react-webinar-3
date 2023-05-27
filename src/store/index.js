@@ -11,7 +11,8 @@ class Store {
      * basket: Basket,
      * catalog: Catalog,
      * modals: Modals,
-     * catalogItem: CatalogItem
+     * catalogItem: CatalogItem,
+     * language: Language,
      * }} */
     this.actions = {};
     for (const name of Object.keys(modules)) {

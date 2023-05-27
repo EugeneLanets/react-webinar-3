@@ -6,6 +6,8 @@ import Head from '../../components/head';
 import { useCallback } from 'react';
 import ItemInfo from '../../components/item-info';
 
+import LangSwitcher from '../../components/LangSwitcher';
+
 function CatalogItem() {
   const store = useStore();
 
@@ -21,15 +23,22 @@ function CatalogItem() {
       () => store.actions.modals.open('basket'),
       [store]
     ),
+    //Смена языка
+    changeLanguage: useCallback(
+      (lang) => store.actions.language.setTranslation(lang),
+      [store]
+    ),
   };
 
-  // useEffect(() => {
-  //   store.actions.catalogItem.load(params.itemId);
-  // }, []);
+  const renders = {
+    langSwitch: useCallback(() => {
+      return <LangSwitcher onLangChange={callbacks.changeLanguage} />;
+    }, [callbacks.changeLanguage]),
+  };
 
   return (
     <PageLayout>
-      <Head title={item.title} />
+      <Head title={item.title} render={renders.langSwitch} />
       <BasketTool
         onOpen={callbacks.openModalBasket}
         amount={select.amount}

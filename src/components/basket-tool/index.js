@@ -5,11 +5,13 @@ import { numberFormat, plural } from '../../utils';
 import './style.css';
 import { Link, useLocation } from 'react-router-dom';
 import useStore from '../../store/use-store';
+import useTranslation from '../../store/use-translation';
 
 function BasketTool({ sum, amount, onOpen }) {
   const store = useStore();
   const cn = bem('BasketTool');
   const location = useLocation();
+  const dict = useTranslation('basketTool');
   return (
     <div className={cn()}>
       <Link
@@ -21,19 +23,15 @@ function BasketTool({ sum, amount, onOpen }) {
           }
         }}
       >
-        Главная
+        {dict.mainLink}
       </Link>
-      <span className={cn('label')}>В корзине:</span>
+      <span className={cn('label')}>{dict.inCart}:</span>
       <span className={cn('total')}>
         {amount
-          ? `${amount} ${plural(amount, {
-              one: 'товар',
-              few: 'товара',
-              many: 'товаров',
-            })} / ${numberFormat(sum)} ₽`
-          : 'пусто'}
+          ? `${amount} ${plural(amount, dict.goods)} / ${numberFormat(sum)} ₽`
+          : dict.empty}
       </span>
-      <button onClick={onOpen}>Перейти</button>
+      <button onClick={onOpen}>{dict.buttonOpen}</button>
     </div>
   );
 }
