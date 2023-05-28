@@ -8,9 +8,7 @@ import useStore from '../../store/use-store';
 import useTranslation from '../../store/use-translation';
 
 function BasketTool({ sum, amount, onOpen }) {
-  const store = useStore();
   const cn = bem('BasketTool');
-  const location = useLocation();
   const dict = useTranslation('basketTool');
   return (
     <div className={cn()}>

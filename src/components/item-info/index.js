@@ -3,8 +3,9 @@ import useSelector from '../../store/use-selector';
 import { priceFormatter } from '../../utils';
 import './style.css';
 import useTranslation from '../../store/use-translation';
+import propTypes from 'prop-types';
 
-function ItemInfo() {
+function ItemInfo({ onAddToCart }) {
   const item = useSelector((state) => state.catalogItem);
   const dict = useTranslation('item');
   const cn = bem('ItemInfo');
@@ -24,9 +25,19 @@ function ItemInfo() {
       <p className={cn('paragraph', { type: 'price' })}>
         {dict.price}: {priceFormatter(item.price)}
       </p>
-      <button type={'button'}>{dict.buttonAdd}</button>
+      <button type={'button'} onClick={() => onAddToCart(item._id)}>
+        {dict.buttonAdd}
+      </button>
     </section>
   );
 }
+
+ItemInfo.propTypes = {
+  onAddToCart: propTypes.func,
+};
+
+ItemInfo.defaultProps = {
+  onAddToCart: () => {},
+};
 
 export default ItemInfo;

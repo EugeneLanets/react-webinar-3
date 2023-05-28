@@ -28,6 +28,10 @@ function CatalogItem() {
       (lang) => store.actions.language.setTranslation(lang),
       [store]
     ),
+    addToBasket: useCallback(
+      (_id) => store.actions.basket.addToBasket(_id),
+      [store]
+    ),
   };
 
   const renders = {
@@ -44,7 +48,7 @@ function CatalogItem() {
         amount={select.amount}
         sum={select.sum}
       />
-      <ItemInfo />
+      <ItemInfo onAddToCart={callbacks.addToBasket} />
     </PageLayout>
   );
 }
