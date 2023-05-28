@@ -7,6 +7,8 @@ import { useCallback } from 'react';
 import ItemInfo from '../../components/item-info';
 
 import LangSwitcher from '../../components/LangSwitcher';
+import Navbar from '../../components/Navbar';
+import Menu from '../../components/Menu';
 
 function CatalogItem() {
   const store = useStore();
@@ -43,11 +45,14 @@ function CatalogItem() {
   return (
     <PageLayout>
       <Head title={item.title} render={renders.langSwitch} />
-      <BasketTool
-        onOpen={callbacks.openModalBasket}
-        amount={select.amount}
-        sum={select.sum}
-      />
+      <Navbar>
+        <Menu />
+        <BasketTool
+          onOpen={callbacks.openModalBasket}
+          amount={select.amount}
+          sum={select.sum}
+        />
+      </Navbar>
       <ItemInfo onAddToCart={callbacks.addToBasket} />
     </PageLayout>
   );

@@ -9,6 +9,9 @@ import useSelector from '../../store/use-selector';
 import Pagination from '../../components/pagination';
 import LangSwitcher from '../../components/LangSwitcher';
 import useTranslation from '../../store/use-translation';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import Navbar from '../../components/Navbar';
+import Menu from '../../components/Menu';
 
 function Main() {
   const store = useStore();
@@ -18,7 +21,13 @@ function Main() {
     list: state.catalog.list,
     amount: state.basket.amount,
     sum: state.basket.sum,
+    totalPages: state.catalog.totalPages,
   }));
+
+  const [queryParams] = useSearchParams();
+  const currentPage = Number(queryParams.get('page')) || 1;
+
+  const location = useLocation();
 
   const callbacks = {
     // Добавление в корзину
@@ -53,13 +62,20 @@ function Main() {
   return (
     <PageLayout>
       <Head title={dict.title} render={renders.langSwitch} />
-      <BasketTool
-        onOpen={callbacks.openModalBasket}
-        amount={select.amount}
-        sum={select.sum}
-      />
+      <Navbar>
+        <Menu />
+        <BasketTool
+          onOpen={callbacks.openModalBasket}
+          amount={select.amount}
+          sum={select.sum}
+        />
+      </Navbar>
       <List list={select.list} renderItem={renders.item} />
-      <Pagination />
+      <Pagination
+        totalPages={select.totalPages}
+        currentPage={currentPage}
+        pathname={location.pathname}
+      />
     </PageLayout>
   );
 }

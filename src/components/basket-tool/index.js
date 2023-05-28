@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import { numberFormat, plural } from '../../utils';
 import './style.css';
-import { Link, useLocation } from 'react-router-dom';
-import useStore from '../../store/use-store';
 import useTranslation from '../../store/use-translation';
 
 function BasketTool({ sum, amount, onOpen }) {
@@ -12,9 +10,6 @@ function BasketTool({ sum, amount, onOpen }) {
   const dict = useTranslation('basketTool');
   return (
     <div className={cn()}>
-      <Link to="/" className={cn('link')}>
-        {dict.mainLink}
-      </Link>
       <span className={cn('label')}>{dict.inCart}:</span>
       <span className={cn('total')}>
         {amount
