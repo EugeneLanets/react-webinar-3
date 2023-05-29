@@ -22,6 +22,8 @@ function Main() {
     amount: state.basket.amount,
     sum: state.basket.sum,
     totalPages: state.catalog.totalPages,
+    languages: state.language.allLanguages,
+    currentLanguage: state.language.currentLanguage,
   }));
 
   const [queryParams] = useSearchParams();
@@ -55,7 +57,13 @@ function Main() {
       [callbacks.addToBasket]
     ),
     langSwitch: useCallback(() => {
-      return <LangSwitcher onLangChange={callbacks.changeLanguage} />;
+      return (
+        <LangSwitcher
+          onLangChange={callbacks.changeLanguage}
+          currentLanguage={select.currentLanguage}
+          languagesList={select.languages}
+        />
+      );
     }, [callbacks.changeLanguage]),
   };
 

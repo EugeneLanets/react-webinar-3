@@ -1,24 +1,21 @@
 import useSelector from '../../store/use-selector';
 import { cn as bem } from '@bem-react/classname';
-import propTypes from 'prop-types';
+import propTypes, { string } from 'prop-types';
+import PropTypes from 'prop-types';
 
-function LangSwitcher({ onLangChange }) {
-  const select = useSelector((state) => ({
-    languages: state.language.allLanguages,
-    currentLanguage: state.language.currentLanguage,
-  }));
+function LangSwitcher({ onLangChange, currentLanguage, languagesList }) {
   const cn = bem('LangSwitcher');
   return (
     <div className={cn()}>
-      {select.languages.map((lang) => (
+      {languagesList.map((language) => (
         <button
-          disabled={select.currentLanguage === lang}
+          disabled={currentLanguage === language}
           type={'button'}
           className={cn('item')}
-          onClick={() => onLangChange(lang)}
-          key={lang}
+          onClick={() => onLangChange(language)}
+          key={language}
         >
-          {lang}
+          {language}
         </button>
       ))}
     </div>
@@ -26,7 +23,9 @@ function LangSwitcher({ onLangChange }) {
 }
 
 LangSwitcher.propTypes = {
-  onLangChange: propTypes.func,
+  onLangChange: PropTypes.func,
+  currentLanguage: PropTypes.string,
+  languagesList: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default LangSwitcher;

@@ -16,6 +16,8 @@ function CatalogItem() {
   const select = useSelector((state) => ({
     amount: state.basket.amount,
     sum: state.basket.sum,
+    languages: state.language.allLanguages,
+    currentLanguage: state.language.currentLanguage,
   }));
   const item = useSelector((state) => state.catalogItem);
 
@@ -38,7 +40,13 @@ function CatalogItem() {
 
   const renders = {
     langSwitch: useCallback(() => {
-      return <LangSwitcher onLangChange={callbacks.changeLanguage} />;
+      return (
+        <LangSwitcher
+          onLangChange={callbacks.changeLanguage}
+          currentLanguage={select.currentLanguage}
+          languagesList={select.languages}
+        />
+      );
     }, [callbacks.changeLanguage]),
   };
 
