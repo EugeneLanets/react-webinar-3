@@ -7,44 +7,48 @@ class CatalogItem extends StoreModule {
 
   initState() {
     return {
-      _id: '1',
-      title: 'Название товара',
-      description: 'Описание товара',
-      country: {
-        title: 'Страна',
-        code: 'CO',
-      },
-      category: 'Категория',
-      edition: 2023,
-      price: 1,
+      item: null,
+      loading: 'idle',
     };
   }
 
   async load(id) {
+    this.setState({
+      item: null,
+      loading: 'loading',
+    });
     const baseUrl = '/api/v1/articles';
 
     const url = `${baseUrl}/${id}?fields=*,madeIn(title,code),category(title)`;
 
-    const response = await fetch(url);
-    const json = await response.json();
-    const { _id, title, description, madeIn, edition, category, price } =
-      json.result;
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      const { _id, title, description, madeIn, edition, category, price } =
+        json.result;
 
-    this.setState(
-      {
-        _id,
-        title,
-        description,
-        country: {
-          title: madeIn.title,
-          code: madeIn.code,
+      this.setState({
+        item: {
+          _id,
+          title,
+          description,
+          country: {
+            title: madeIn.title,
+            code: madeIn.code,
+          },
+          category: category.title,
+          edition,
+          price,
         },
-        category: category.title,
-        edition,
-        price,
-      },
-      `Загружен товар ID=${id} из АПИ`
-    );
+        loading: 'idle',
+      });
+    } catch (err) {
+      console.log(err.message);
+      this.setState({
+        ...this.getState(),
+        loading: 'error',
+      });
+    }
   }
 }
 

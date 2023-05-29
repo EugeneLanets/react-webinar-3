@@ -1,10 +1,14 @@
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
-import { NavLink } from 'react-router-dom';
 import getPages from '../../utils';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-function Pagination({ totalPages, currentPage, separator = '…', pathname }) {
+function Pagination({
+  totalPages,
+  currentPage,
+  onPageChange,
+  separator = '…',
+}) {
   const cn = bem('Pagination');
   const pages = getPages({
     totalPages,
@@ -24,20 +28,16 @@ function Pagination({ totalPages, currentPage, separator = '…', pathname }) {
             </span>
           );
         }
+        console.log(item, currentPage);
 
         return (
-          <NavLink
-            to={item === 1 ? '/' : `/catalog/?page=${item}`}
-            className={({ isActive }) => {
-              return cn('item', {
-                active:
-                  (isActive || pathname === '/catalog') && item === currentPage,
-              });
-            }}
+          <button
+            className={cn('item', { active: item === currentPage })}
             key={idx}
+            onClick={() => onPageChange(item)}
           >
             {item}
-          </NavLink>
+          </button>
         );
       })}
     </div>
@@ -45,10 +45,10 @@ function Pagination({ totalPages, currentPage, separator = '…', pathname }) {
 }
 
 Pagination.propTypes = {
-  totalPages: propTypes.number,
-  currentPage: propTypes.number,
-  separator: propTypes.string,
-  pathname: propTypes.string,
+  totalPages: PropTypes.number,
+  currentPage: PropTypes.number,
+  separator: PropTypes.string,
+  onPageChange: PropTypes.func,
 };
 
 export default Pagination;

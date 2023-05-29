@@ -3,23 +3,28 @@ import BasketTool from '../../components/basket-tool';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
 import Head from '../../components/head';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import ItemInfo from '../../components/item-info';
 
 import LangSwitcher from '../../components/LangSwitcher';
 import Navbar from '../../components/Navbar';
 import Menu from '../../components/Menu';
+import { useParams } from 'react-router-dom';
+import Spinner from '../../components/spinner';
 
 function CatalogItem() {
   const store = useStore();
+
+  const params = useParams();
 
   const select = useSelector((state) => ({
     amount: state.basket.amount,
     sum: state.basket.sum,
     languages: state.language.allLanguages,
     currentLanguage: state.language.currentLanguage,
+    item: state.catalogItem.item,
+    loading: state.catalogItem.loading,
   }));
-  const item = useSelector((state) => state.catalogItem);
 
   const callbacks = {
     // Открытие модалки корзины
@@ -50,9 +55,14 @@ function CatalogItem() {
     }, [callbacks.changeLanguage]),
   };
 
+  useEffect(() => {
+    store.actions.modals.close();
+    store.actions.catalogItem.load(params.itemId);
+  }, []);
+
   return (
     <PageLayout>
-      <Head title={item.title} render={renders.langSwitch} />
+      <Head title={select.item?.title} render={renders.langSwitch} />
       <Navbar>
         <Menu />
         <BasketTool
@@ -61,7 +71,8 @@ function CatalogItem() {
           sum={select.sum}
         />
       </Navbar>
-      <ItemInfo onAddToCart={callbacks.addToBasket} />
+      <ItemInfo onAddToCart={callbacks.addToBasket} item={select.item} />
+      {select.loading === 'loading' && <Spinner />}
     </PageLayout>
   );
 }

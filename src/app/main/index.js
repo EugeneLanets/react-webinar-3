@@ -9,9 +9,9 @@ import useSelector from '../../store/use-selector';
 import Pagination from '../../components/pagination';
 import LangSwitcher from '../../components/LangSwitcher';
 import useTranslation from '../../store/use-translation';
-import { useLocation, useSearchParams } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Menu from '../../components/Menu';
+import Spinner from '../../components/spinner';
 
 function Main() {
   const store = useStore();
@@ -19,17 +19,14 @@ function Main() {
 
   const select = useSelector((state) => ({
     list: state.catalog.list,
+    loading: state.catalog.loading,
     amount: state.basket.amount,
     sum: state.basket.sum,
     totalPages: state.catalog.totalPages,
+    currentPage: state.catalog.currentPage,
     languages: state.language.allLanguages,
     currentLanguage: state.language.currentLanguage,
   }));
-
-  const [queryParams] = useSearchParams();
-  const currentPage = Number(queryParams.get('page')) || 1;
-
-  const location = useLocation();
 
   const callbacks = {
     // Добавление в корзину
@@ -47,7 +44,15 @@ function Main() {
       (lang) => store.actions.language.setTranslation(lang),
       [store]
     ),
+    changePage: useCallback(
+      (page) => store.actions.catalog.load(page),
+      [store]
+    ),
   };
+
+  useEffect(() => {
+    store.actions.catalog.load();
+  }, []);
 
   const renders = {
     item: useCallback(
@@ -67,6 +72,10 @@ function Main() {
     }, [callbacks.changeLanguage]),
   };
 
+  useEffect(() => {
+    store.actions.catalog.load();
+  }, []);
+
   return (
     <PageLayout>
       <Head title={dict.title} render={renders.langSwitch} />
@@ -81,9 +90,10 @@ function Main() {
       <List list={select.list} renderItem={renders.item} />
       <Pagination
         totalPages={select.totalPages}
-        currentPage={currentPage}
-        pathname={location.pathname}
+        currentPage={select.currentPage}
+        onPageChange={callbacks.changePage}
       />
+      {select.loading === 'loading' && <Spinner />}
     </PageLayout>
   );
 }

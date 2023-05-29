@@ -9,7 +9,6 @@ import useStore from '../../store/use-store';
 import useTranslation from '../../store/use-translation';
 
 function ItemBasket(props) {
-  const store = useStore();
   const cn = bem('ItemBasket');
   const dict = useTranslation('cart');
   const callbacks = {
@@ -18,13 +17,7 @@ function ItemBasket(props) {
 
   return (
     <div className={cn()}>
-      <Link
-        to={`/${props.path}/${props.item._id}`}
-        className={cn('title')}
-        onClick={() => {
-          store.actions.modals.close();
-        }}
-      >
+      <Link to={`/${props.path}/${props.item._id}`} className={cn('title')}>
         {props.item.title}
       </Link>
       <div className={cn('right')}>

@@ -1,14 +1,14 @@
 import { cn as bem } from '@bem-react/classname';
-import useSelector from '../../store/use-selector';
 import { priceFormatter } from '../../utils';
 import './style.css';
 import useTranslation from '../../store/use-translation';
 import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-function ItemInfo({ onAddToCart }) {
-  const item = useSelector((state) => state.catalogItem);
+function ItemInfo({ onAddToCart, item }) {
   const dict = useTranslation('item');
   const cn = bem('ItemInfo');
+  if (!item) return null;
 
   return (
     <section className="ItemInfo">
@@ -34,6 +34,7 @@ function ItemInfo({ onAddToCart }) {
 
 ItemInfo.propTypes = {
   onAddToCart: propTypes.func,
+  item: PropTypes.object,
 };
 
 ItemInfo.defaultProps = {
