@@ -28,7 +28,6 @@ function Pagination({
             </span>
           );
         }
-        console.log(item, currentPage);
 
         return (
           <button

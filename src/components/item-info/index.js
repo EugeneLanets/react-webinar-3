@@ -1,12 +1,11 @@
 import { cn as bem } from '@bem-react/classname';
 import { priceFormatter } from '../../utils';
 import './style.css';
-import useTranslation from '../../store/use-translation';
-import propTypes from 'prop-types';
 import PropTypes from 'prop-types';
+import useTranslation from '../../hooks/use-translation';
 
 function ItemInfo({ onAddToCart, item }) {
-  const dict = useTranslation('item');
+  const { t } = useTranslation();
   const cn = bem('ItemInfo');
   if (!item) return null;
 
@@ -14,26 +13,26 @@ function ItemInfo({ onAddToCart, item }) {
     <section className="ItemInfo">
       <p className={cn('paragraph')}>{item.description}</p>
       <p className={cn('paragraph')}>
-        {dict.madeIn}: <b>{`${item.country.title} (${item.country.code})`}</b>
+        {t('made in')}: <b>{`${item.country.title} (${item.country.code})`}</b>
       </p>
       <p className={cn('paragraph')}>
-        {dict.category}: <b>{item.category}</b>
+        {t('category')}: <b>{item.category}</b>
       </p>
       <p className={cn('paragraph')}>
-        {dict.edition}: <b>{item.edition}</b>
+        {t('edition')}: <b>{item.edition}</b>
       </p>
       <p className={cn('paragraph', { type: 'price' })}>
-        {dict.price}: {priceFormatter(item.price)}
+        {t('price')}: {priceFormatter(item.price)}
       </p>
       <button type={'button'} onClick={() => onAddToCart(item._id)}>
-        {dict.buttonAdd}
+        {t('add button')}
       </button>
     </section>
   );
 }
 
 ItemInfo.propTypes = {
-  onAddToCart: propTypes.func,
+  onAddToCart: PropTypes.func,
   item: PropTypes.object,
 };
 

@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
-import useTranslation from '../../store/use-translation';
+import useTranslation from '../../hooks/use-translation';
 
 function Menu() {
   const cn = bem('Menu');
-  const dict = useTranslation('basketTool');
+  const { t } = useTranslation();
   return (
     <Link to="/" className={cn('link')}>
-      {dict.mainLink}
+      {t('main')}
     </Link>
   );
 }

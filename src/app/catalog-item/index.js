@@ -11,17 +11,17 @@ import Navbar from '../../components/Navbar';
 import Menu from '../../components/Menu';
 import { useParams } from 'react-router-dom';
 import Spinner from '../../components/spinner';
+import useTranslation from '../../hooks/use-translation';
 
 function CatalogItem() {
   const store = useStore();
 
   const params = useParams();
+  const { currentLanguage, languages, changeLanguage } = useTranslation();
 
   const select = useSelector((state) => ({
     amount: state.basket.amount,
     sum: state.basket.sum,
-    languages: state.language.allLanguages,
-    currentLanguage: state.language.currentLanguage,
     item: state.catalogItem.item,
     loading: state.catalogItem.loading,
   }));
@@ -48,11 +48,11 @@ function CatalogItem() {
       return (
         <LangSwitcher
           onLangChange={callbacks.changeLanguage}
-          currentLanguage={select.currentLanguage}
-          languagesList={select.languages}
+          currentLanguage={currentLanguage}
+          languagesList={languages}
         />
       );
-    }, [callbacks.changeLanguage]),
+    }, [currentLanguage]),
   };
 
   useEffect(() => {

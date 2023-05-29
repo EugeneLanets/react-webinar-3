@@ -3,20 +3,24 @@ import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import { numberFormat, plural } from '../../utils';
 import './style.css';
-import useTranslation from '../../store/use-translation';
+import useTranslation from '../../hooks/use-translation';
 
 function BasketTool({ sum, amount, onOpen }) {
   const cn = bem('BasketTool');
-  const dict = useTranslation('basketTool');
+  const { t } = useTranslation();
   return (
     <div className={cn()}>
-      <span className={cn('label')}>{dict.inCart}:</span>
+      <span className={cn('label')}>{t('in cart')}:</span>
       <span className={cn('total')}>
         {amount
-          ? `${amount} ${plural(amount, dict.goods)} / ${numberFormat(sum)} ₽`
-          : dict.empty}
+          ? `${amount} ${plural(amount, {
+              one: t('one item'),
+              few: t('few items'),
+              many: t('many items'),
+            })} / ${numberFormat(sum)} ₽`
+          : t('empty')}
       </span>
-      <button onClick={onOpen}>{dict.buttonOpen}</button>
+      <button onClick={onOpen}>{t('open cart button')}</button>
     </div>
   );
 }

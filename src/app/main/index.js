@@ -8,14 +8,14 @@ import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
 import Pagination from '../../components/pagination';
 import LangSwitcher from '../../components/LangSwitcher';
-import useTranslation from '../../store/use-translation';
 import Navbar from '../../components/Navbar';
 import Menu from '../../components/Menu';
 import Spinner from '../../components/spinner';
+import useTranslation from '../../hooks/use-translation';
 
 function Main() {
   const store = useStore();
-  const dict = useTranslation('head');
+  const { currentLanguage, languages, t, changeLanguage } = useTranslation();
 
   const select = useSelector((state) => ({
     list: state.catalog.list,
@@ -24,8 +24,6 @@ function Main() {
     sum: state.basket.sum,
     totalPages: state.catalog.totalPages,
     currentPage: state.catalog.currentPage,
-    languages: state.language.allLanguages,
-    currentLanguage: state.language.currentLanguage,
   }));
 
   const callbacks = {
@@ -65,11 +63,11 @@ function Main() {
       return (
         <LangSwitcher
           onLangChange={callbacks.changeLanguage}
-          currentLanguage={select.currentLanguage}
-          languagesList={select.languages}
+          currentLanguage={currentLanguage}
+          languagesList={languages}
         />
       );
-    }, [callbacks.changeLanguage]),
+    }, [currentLanguage]),
   };
 
   useEffect(() => {
@@ -78,7 +76,7 @@ function Main() {
 
   return (
     <PageLayout>
-      <Head title={dict.title} render={renders.langSwitch} />
+      <Head title={t('shop')} render={renders.langSwitch} />
       <Navbar>
         <Menu />
         <BasketTool

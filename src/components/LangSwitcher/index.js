@@ -1,10 +1,9 @@
-import useSelector from '../../store/use-selector';
 import { cn as bem } from '@bem-react/classname';
-import propTypes, { string } from 'prop-types';
 import PropTypes from 'prop-types';
 
 function LangSwitcher({ onLangChange, currentLanguage, languagesList }) {
   const cn = bem('LangSwitcher');
+
   return (
     <div className={cn()}>
       {languagesList.map((language) => (
