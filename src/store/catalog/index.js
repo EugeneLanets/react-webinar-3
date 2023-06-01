@@ -16,6 +16,7 @@ class CatalogState extends StoreModule {
         limit: 10,
         sort: 'order',
         query: '',
+        category: 'all',
       },
       count: 0,
       waiting: false,
@@ -32,6 +33,7 @@ class CatalogState extends StoreModule {
    */
   async initParams(newParams = {}) {
     const urlParams = new URLSearchParams(window.location.search);
+    console.log(urlParams.get('category'));
     let validParams = {};
     if (urlParams.has('page'))
       validParams.page = Number(urlParams.get('page')) || 1;
@@ -39,6 +41,8 @@ class CatalogState extends StoreModule {
       validParams.limit = Math.min(Number(urlParams.get('limit')) || 10, 50);
     if (urlParams.has('sort')) validParams.sort = urlParams.get('sort');
     if (urlParams.has('query')) validParams.query = urlParams.get('query');
+    if (urlParams.has('category'))
+      validParams.category = urlParams.get('category');
     await this.setParams(
       { ...this.initState().params, ...validParams, ...newParams },
       true
@@ -86,13 +90,19 @@ class CatalogState extends StoreModule {
       window.history.pushState({}, '', url);
     }
 
+    const categoryParam =
+      params.category === 'all' ? {} : { 'search[category]': params.category };
+    console.log(categoryParam);
     const apiParams = {
       limit: params.limit,
       skip: (params.page - 1) * params.limit,
       fields: 'items(*),count',
       sort: params.sort,
       'search[query]': params.query,
+      ...categoryParam,
     };
+
+    console.log(apiParams);
 
     const response = await fetch(
       `/api/v1/articles?${new URLSearchParams(apiParams)}`
@@ -109,7 +119,7 @@ class CatalogState extends StoreModule {
     );
   }
 
-  async getCategories() {
+  async loadCategories() {
     this.setState({
       ...this.getState(),
       waiting: true,
@@ -119,11 +129,14 @@ class CatalogState extends StoreModule {
         '/api/v1/categories?fields=_id,title,parent(_id)&limit=*'
       );
       const json = await response.json();
-      this.setState({
-        ...this.getState(),
-        categories: json.result.items,
-        waiting: false,
-      });
+      this.setState(
+        {
+          ...this.getState(),
+          categories: json.result.items,
+          waiting: false,
+        },
+        'Список категорий загружен из АПИ'
+      );
     } catch (error) {
       this.setState({
         ...this.getState(),

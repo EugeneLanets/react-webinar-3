@@ -5,6 +5,11 @@ import useSelector from '../../hooks/use-selector';
 import Select from '../../components/select';
 import Input from '../../components/input';
 import SideLayout from '../../components/side-layout';
+import {
+  convertTreeToList,
+  createCategoriesTree,
+  getHierarchicCategoriesList,
+} from '../../utils';
 
 function CatalogFilter() {
   const store = useStore();
@@ -12,6 +17,7 @@ function CatalogFilter() {
   const select = useSelector((state) => ({
     sort: state.catalog.params.sort,
     query: state.catalog.params.query,
+    category: state.catalog.params.category,
     categories: state.catalog.categories,
   }));
 
@@ -19,6 +25,10 @@ function CatalogFilter() {
     // Сортировка
     onSort: useCallback(
       (sort) => store.actions.catalog.setParams({ sort }),
+      [store]
+    ),
+    onCategory: useCallback(
+      (category) => store.actions.catalog.setParams({ category }),
       [store]
     ),
     // Поиск
@@ -40,17 +50,21 @@ function CatalogFilter() {
       ],
       []
     ),
-    categories: select.categories.map(({ _id, title }) => ({
-      title,
-      value: _id,
-    })),
+    categories: [
+      { value: 'all', title: 'Всё' },
+      ...getHierarchicCategoriesList(select.categories),
+    ],
   };
 
   const { t } = useTranslate();
 
   return (
     <SideLayout padding="medium">
-      <Select options={options.categories} />
+      <Select
+        options={options.categories}
+        value={select.category}
+        onChange={callbacks.onCategory}
+      />
       <Select
         options={options.sort}
         value={select.sort}
