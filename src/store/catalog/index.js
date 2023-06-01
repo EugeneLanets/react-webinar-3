@@ -1,10 +1,9 @@
-import StoreModule from "../module";
+import StoreModule from '../module';
 
 /**
  * Состояние каталога - параметры фильтра исписок товара
  */
 class CatalogState extends StoreModule {
-
   /**
    * Начальное состояние
    * @return {Object}
@@ -16,11 +15,13 @@ class CatalogState extends StoreModule {
         page: 1,
         limit: 10,
         sort: 'order',
-        query: ''
+        query: '',
       },
       count: 0,
-      waiting: false
-    }
+      waiting: false,
+      categories: [],
+      error: null,
+    };
   }
 
   /**
@@ -32,11 +33,16 @@ class CatalogState extends StoreModule {
   async initParams(newParams = {}) {
     const urlParams = new URLSearchParams(window.location.search);
     let validParams = {};
-    if (urlParams.has('page')) validParams.page = Number(urlParams.get('page')) || 1;
-    if (urlParams.has('limit')) validParams.limit = Math.min(Number(urlParams.get('limit')) || 10, 50);
+    if (urlParams.has('page'))
+      validParams.page = Number(urlParams.get('page')) || 1;
+    if (urlParams.has('limit'))
+      validParams.limit = Math.min(Number(urlParams.get('limit')) || 10, 50);
     if (urlParams.has('sort')) validParams.sort = urlParams.get('sort');
     if (urlParams.has('query')) validParams.query = urlParams.get('query');
-    await this.setParams({...this.initState().params, ...validParams, ...newParams}, true);
+    await this.setParams(
+      { ...this.initState().params, ...validParams, ...newParams },
+      true
+    );
   }
 
   /**
@@ -46,7 +52,7 @@ class CatalogState extends StoreModule {
    */
   async resetParams(newParams = {}) {
     // Итоговые параметры из начальных, из URL и из переданных явно
-    const params = {...this.initState().params, ...newParams};
+    const params = { ...this.initState().params, ...newParams };
     // Установка параметров и загрузка данных
     await this.setParams(params);
   }
@@ -58,18 +64,22 @@ class CatalogState extends StoreModule {
    * @returns {Promise<void>}
    */
   async setParams(newParams = {}, replaceHistory = false) {
-    const params = {...this.getState().params, ...newParams};
+    const params = { ...this.getState().params, ...newParams };
 
     // Установка новых параметров и признака загрузки
-    this.setState({
-      ...this.getState(),
-      params,
-      waiting: true
-    }, 'Установлены параметры каталога');
+    this.setState(
+      {
+        ...this.getState(),
+        params,
+        waiting: true,
+      },
+      'Установлены параметры каталога'
+    );
 
     // Сохранить параметры в адрес страницы
     let urlSearch = new URLSearchParams(params).toString();
-    const url = window.location.pathname + '?' + urlSearch + window.location.hash;
+    const url =
+      window.location.pathname + '?' + urlSearch + window.location.hash;
     if (replaceHistory) {
       window.history.replaceState({}, '', url);
     } else {
@@ -81,17 +91,46 @@ class CatalogState extends StoreModule {
       skip: (params.page - 1) * params.limit,
       fields: 'items(*),count',
       sort: params.sort,
-      'search[query]': params.query
+      'search[query]': params.query,
     };
 
-    const response = await fetch(`/api/v1/articles?${new URLSearchParams(apiParams)}`);
+    const response = await fetch(
+      `/api/v1/articles?${new URLSearchParams(apiParams)}`
+    );
     const json = await response.json();
+    this.setState(
+      {
+        ...this.getState(),
+        list: json.result.items,
+        count: json.result.count,
+        waiting: false,
+      },
+      'Загружен список товаров из АПИ'
+    );
+  }
+
+  async getCategories() {
     this.setState({
       ...this.getState(),
-      list: json.result.items,
-      count: json.result.count,
-      waiting: false
-    }, 'Загружен список товаров из АПИ');
+      waiting: true,
+    });
+    try {
+      const response = await fetch(
+        '/api/v1/categories?fields=_id,title,parent(_id)&limit=*'
+      );
+      const json = await response.json();
+      this.setState({
+        ...this.getState(),
+        categories: json.result.items,
+        waiting: false,
+      });
+    } catch (error) {
+      this.setState({
+        ...this.getState(),
+        error,
+        waiting: false,
+      });
+    }
   }
 }
 
