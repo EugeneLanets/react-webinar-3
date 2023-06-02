@@ -13,7 +13,7 @@ Content-Type: application/json
 # Выход - отмена авториазции для удаления токена
 
 DELETE {{baseUrl}}/users/sign
-X-Token: {{token}}
+X-Token: dc4bc9c2e5578ff8d0528e237b80e5a9191a9d9958277c01fcf64f99fd8a3ec2
 Content-Type: application/json
 
 ###

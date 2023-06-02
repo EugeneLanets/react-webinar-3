@@ -7,6 +7,7 @@ import Login from './login';
 import useInit from '../hooks/use-init';
 import useStore from '../hooks/use-store';
 import Profile from './profile';
+import AuthRoot from '../components/AuthRoot';
 
 /**
  * Приложение
@@ -14,21 +15,17 @@ import Profile from './profile';
  */
 function App() {
   const activeModal = useSelector((state) => state.modals.name);
-  const store = useStore();
-  useInit(
-    () => {
-      store.actions.user.checkUser();
-    },
-    [],
-    true
-  );
+
+  const isAuth = useSelector((state) => state.user.isAuth);
   return (
     <>
       <Routes>
         <Route path={''} element={<Main />} />
         <Route path={'/articles/:id'} element={<Article />} />
         <Route path={'/login'} element={<Login />} />
-        <Route path={'/profile'} element={<Profile />} />
+        <Route element={<AuthRoot />}>
+          <Route path={'/profile'} element={<Profile />} />
+        </Route>
       </Routes>
 
       {activeModal === 'basket' && <Basket />}

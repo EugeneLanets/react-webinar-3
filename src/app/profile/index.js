@@ -5,7 +5,7 @@ import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
 import LocaleSelect from '../../containers/locale-select';
 import UserPanel from '../../containers/user-panel';
-import UserCard from '../../components/user-card';
+import UserCard from '../../containers/user-card';
 
 function Profile() {
   const { t } = useTranslate();

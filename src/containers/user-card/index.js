@@ -1,12 +1,10 @@
 import { memo } from 'react';
 import PropTypes from 'prop-types';
-import './style.css';
 import useTranslate from '../../hooks/use-translate';
 import useSelector from '../../hooks/use-selector';
-import Spinner from '../spinner';
-import ServicePageLayout from '../service-page-layout';
-import KeyValueList from '../key-value-list';
-import KeyValueItem from '../key-value-item';
+import ServicePageLayout from '../../components/service-page-layout';
+import KeyValueList from '../../components/key-value-list';
+import KeyValueItem from '../../components/key-value-item';
 
 function UserCard() {
   const { t } = useTranslate();

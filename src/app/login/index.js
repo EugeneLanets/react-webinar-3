@@ -6,10 +6,19 @@ import Head from '../../components/head';
 import LocaleSelect from '../../containers/locale-select';
 import UserPanel from '../../containers/user-panel';
 import LoginForm from '../../components/login-form';
+import useInit from '../../hooks/use-init';
+import useStore from '../../hooks/use-store';
 
 function Login() {
+  const store = useStore();
   const { t } = useTranslate();
-
+  useInit(
+    () => {
+      store.actions.user.checkUser();
+    },
+    [],
+    true
+  );
   return (
     <PageLayout>
       <UserPanel />

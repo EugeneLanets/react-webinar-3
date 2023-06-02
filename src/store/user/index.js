@@ -88,6 +88,41 @@ class UserState extends StoreModule {
     );
   }
 
+  resetUser() {
+    this.setState({
+      user: {},
+      credentials: {
+        login: '',
+        password: '',
+      },
+      token: '',
+      waiting: false,
+      error: null,
+      isAuth: false,
+    });
+  }
+
+  async logout() {
+    try {
+      const response = await fetch('/api/v1/users/sign', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Token': this.getState().token,
+        },
+      });
+      const { error } = await response.json();
+      if (error) {
+        throw new Error(error.data.issues[0].message);
+      }
+
+      this.resetUser();
+      localStorage.removeItem('token');
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
   async checkUser() {
     let token = this.getState().token || localStorage.getItem('token');
 
