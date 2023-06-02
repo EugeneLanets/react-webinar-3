@@ -4,13 +4,12 @@ import { cn as bem } from '@bem-react/classname';
 
 import './style.css';
 import Input from '../input';
-import ColumnLayout from '../column-layout';
 
-function LabeledInput(props) {
-  const cn = bem('LabeledInput');
+function LabelInput(props) {
+  const cn = bem('LabelInput');
 
   return (
-    <ColumnLayout gap={'none'} padding={'none'}>
+    <div className={cn()}>
       <label htmlFor={props.id}>{props.name}</label>
       <Input
         value={props.value}
@@ -21,11 +20,11 @@ function LabeledInput(props) {
         id={props.id}
         type={props.type}
       />
-    </ColumnLayout>
+    </div>
   );
 }
 
-LabeledInput.propTypes = {
+LabelInput.propTypes = {
   value: PropTypes.string,
   name: PropTypes.string,
   type: PropTypes.string,
@@ -35,11 +34,11 @@ LabeledInput.propTypes = {
   id: PropTypes.string,
 };
 
-LabeledInput.defaultProps = {
+LabelInput.defaultProps = {
   onChange: () => {},
   type: 'text',
   theme: '',
   id: 'input',
 };
 
-export default memo(LabeledInput);
+export default memo(LabelInput);

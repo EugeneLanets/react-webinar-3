@@ -22,5 +22,9 @@
   "login": "Login",
   "password": "Password",
   "field.login": "Login",
-  "field.password": "Password"
+  "field.password": "Password",
+  "profile.title": "Profile",
+  "profile.name": "Name",
+  "profile.phone": "Phone",
+  "profile.email": "email"
 }

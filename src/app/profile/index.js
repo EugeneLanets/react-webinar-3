@@ -5,8 +5,9 @@ import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
 import LocaleSelect from '../../containers/locale-select';
 import UserPanel from '../../containers/user-panel';
+import UserCard from '../../components/user-card';
 
-function Profile(props) {
+function Profile() {
   const { t } = useTranslate();
 
   return (
@@ -16,6 +17,7 @@ function Profile(props) {
         <LocaleSelect />
       </Head>
       <Navigation />
+      <UserCard />
     </PageLayout>
   );
 }

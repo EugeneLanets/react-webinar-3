@@ -1,16 +1,14 @@
-import { memo, useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
+import { memo, useCallback } from 'react';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
-import ColumnLayout from '../column-layout';
-
 import LabeledInput from '../label-input';
 import useTranslate from '../../hooks/use-translate';
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import Spinner from '../spinner';
+import ServicePageLayout from '../service-page-layout';
 
-function LoginForm(props) {
+function LoginForm() {
   const cn = bem('LoginForm');
   const store = useStore();
   const { t } = useTranslate();
@@ -41,38 +39,37 @@ function LoginForm(props) {
   };
   return (
     <Spinner active={select.waiting}>
-      <ColumnLayout padding={'medium'} gap={'medium'}>
-        <h2 className={cn('title')}>{props.title}</h2>
-        <form onSubmit={callbacks.onSubmit}>
-          <ColumnLayout padding="none" gap={'medium'}>
-            <LabeledInput
-              name={t('field.login')}
-              id={'login'}
-              onChange={callbacks.onLoginChange}
-              value={select.login}
-            />
-            <LabeledInput
-              name={t('field.password')}
-              id={'password'}
-              type={'password'}
-              value={select.password}
-              onChange={callbacks.onPasswordChange}
-            />
-            {select.error ? <div className="error">{select.error}</div> : null}
-            <button type={'submit'}>{t('button.loginForm')}</button>
-          </ColumnLayout>
+      <ServicePageLayout
+        head={t('login.title')}
+        padding={'medium'}
+        gap={'medium'}
+      >
+        <form onSubmit={callbacks.onSubmit} className={cn()}>
+          <LabeledInput
+            name={t('field.login')}
+            id={'login'}
+            onChange={callbacks.onLoginChange}
+            value={select.login}
+          />
+          <LabeledInput
+            name={t('field.password')}
+            id={'password'}
+            type={'password'}
+            value={select.password}
+            onChange={callbacks.onPasswordChange}
+          />
+          {select.error ? (
+            <div className={cn('error')}>{select.error}</div>
+          ) : null}
+          <button type={'submit'}>{t('button.loginForm')}</button>
         </form>
-      </ColumnLayout>
+      </ServicePageLayout>
     </Spinner>
   );
 }
 
-LoginForm.propTypes = {
-  title: PropTypes.string,
-};
+LoginForm.propTypes = {};
 
-LoginForm.defaultProps = {
-  title: 'Title',
-};
+LoginForm.defaultProps = {};
 
 export default memo(LoginForm);
