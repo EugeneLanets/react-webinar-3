@@ -16,5 +16,11 @@
     "few": "товара",
     "many": "товаров",
     "other": "товара"
-  }
+  },
+  "button.login": "Вход",
+  "button.logout": "Выход",
+  "button.loginForm": "Войти",
+  "login.title": "Вход",
+  "field.login": "Логин",
+  "field.password": "Пароль"
 }

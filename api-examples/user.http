@@ -20,5 +20,12 @@ Content-Type: application/json
 # Свой профиль
 
 GET {{baseUrl}}/users/self
-X-Token: {{token}}
+X-Token: dc4bc9c2e5578ff8d0528e237b80e5a9191a9d9958277c01fcf64f99fd8a3ec2
 Content-Type: application/json
+
+###
+
+GET {{baseUrl}}/users/6477697210d1060c910caf68
+X-Token: dc4bc9c2e5578ff8d0528e237b80e5a9191a9d9958277c01fcf64f99fd8a3ec2
+Content-Type: application/json
+

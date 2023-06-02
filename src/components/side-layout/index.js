@@ -7,11 +7,14 @@ function SideLayout({ children, side, padding }) {
   const cn = bem('SideLayout');
   return (
     <div className={cn({ side, padding })}>
-      {React.Children.map(children, (child) => (
-        <div key={child.key} className={cn('item')}>
-          {child}
-        </div>
-      ))}
+      {React.Children.map(children, (child) => {
+        if (child === null) return null;
+        return (
+          <div key={child.key} className={cn('item')}>
+            {child}
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -5,11 +5,7 @@ import useSelector from '../../hooks/use-selector';
 import Select from '../../components/select';
 import Input from '../../components/input';
 import SideLayout from '../../components/side-layout';
-import {
-  convertTreeToList,
-  createCategoriesTree,
-  getHierarchicCategoriesList,
-} from '../../utils';
+import { getHierarchicCategoriesList } from '../../utils';
 
 function CatalogFilter() {
   const store = useStore();
@@ -28,7 +24,7 @@ function CatalogFilter() {
       [store]
     ),
     onCategory: useCallback(
-      (category) => store.actions.catalog.setParams({ category }),
+      (category) => store.actions.catalog.setParams({ category, page: 1 }),
       [store]
     ),
     // Поиск
@@ -75,6 +71,7 @@ function CatalogFilter() {
         onChange={callbacks.onSearch}
         placeholder={'Поиск'}
         delay={1000}
+        theme={'big'}
       />
       <button onClick={callbacks.onReset}>{t('filter.reset')}</button>
     </SideLayout>

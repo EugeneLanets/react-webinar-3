@@ -33,7 +33,6 @@ class CatalogState extends StoreModule {
    */
   async initParams(newParams = {}) {
     const urlParams = new URLSearchParams(window.location.search);
-    console.log(urlParams.get('category'));
     let validParams = {};
     if (urlParams.has('page'))
       validParams.page = Number(urlParams.get('page')) || 1;
@@ -92,7 +91,6 @@ class CatalogState extends StoreModule {
 
     const categoryParam =
       params.category === 'all' ? {} : { 'search[category]': params.category };
-    console.log(categoryParam);
     const apiParams = {
       limit: params.limit,
       skip: (params.page - 1) * params.limit,
@@ -101,8 +99,6 @@ class CatalogState extends StoreModule {
       'search[query]': params.query,
       ...categoryParam,
     };
-
-    console.log(apiParams);
 
     const response = await fetch(
       `/api/v1/articles?${new URLSearchParams(apiParams)}`
