@@ -16,4 +16,8 @@ ProfileLink.propTypes = {
   userName: PropTypes.string.isRequired,
 };
 
+ProfileLink.defaultProps = {
+  userName: '',
+};
+
 export default ProfileLink;

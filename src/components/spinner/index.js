@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './style.css';
 
 function Spinner({ active, children }) {
+  console.log(name, active);
   if (active) {
     return <div className="Spinner">{children}</div>;
   } else {

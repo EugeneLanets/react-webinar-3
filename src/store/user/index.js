@@ -4,10 +4,6 @@ class UserState extends StoreModule {
   initState() {
     return {
       user: {},
-      credentials: {
-        login: '',
-        password: '',
-      },
       token: '',
       waiting: false,
       error: null,
@@ -15,18 +11,7 @@ class UserState extends StoreModule {
     };
   }
 
-  setCredentials(newCredentials) {
-    const credentials = { ...this.getState().credentials, ...newCredentials };
-    this.setState(
-      {
-        ...this.getState(),
-        credentials,
-      },
-      'Логин или пароль изменены'
-    );
-  }
-
-  async login() {
+  async login(credentials) {
     this.setState({
       ...this.getState(),
       waiting: true,
@@ -35,7 +20,7 @@ class UserState extends StoreModule {
       const response = await fetch('/api/v1/users/sign', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(this.getState().credentials),
+        body: JSON.stringify(credentials),
       });
       const { error, result } = await response.json();
       if (error) {
@@ -79,10 +64,6 @@ class UserState extends StoreModule {
           phone,
         },
         token,
-        credentials: {
-          login: '',
-          password: '',
-        },
       },
       'User data updated successfully'
     );
@@ -91,10 +72,6 @@ class UserState extends StoreModule {
   resetUser() {
     this.setState({
       user: {},
-      credentials: {
-        login: '',
-        password: '',
-      },
       token: '',
       waiting: false,
       error: null,
@@ -123,10 +100,18 @@ class UserState extends StoreModule {
     }
   }
 
+  getToken() {
+    return this.getState().token || localStorage.getItem('token');
+  }
+
   async checkUser() {
-    let token = this.getState().token || localStorage.getItem('token');
+    const token = this.getToken();
 
     if (token) {
+      this.setState({
+        ...this.getState(),
+        waiting: true,
+      });
       const response = await fetch('/api/v1/users/self', {
         headers: { 'Content-Type': 'application/json', 'X-Token': token },
       });

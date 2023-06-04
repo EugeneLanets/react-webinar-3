@@ -52,7 +52,11 @@ function createCategoriesTree(categories) {
 
 function convertTreeToList(tree, level = 0, arr = []) {
   for (let leaf of tree) {
-    arr.push({ title: '-'.repeat(level) + leaf.title, level, value: leaf._id });
+    arr.push({
+      title: '- '.repeat(level) + leaf.title,
+      level,
+      value: leaf._id,
+    });
     if (leaf.children) convertTreeToList(leaf.children, level + 1, arr);
   }
 

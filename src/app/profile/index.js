@@ -6,10 +6,22 @@ import Head from '../../components/head';
 import LocaleSelect from '../../containers/locale-select';
 import UserPanel from '../../containers/user-panel';
 import UserCard from '../../containers/user-card';
+import useStore from '../../hooks/use-store';
+import useInit from '../../hooks/use-init';
+import useSelector from '../../hooks/use-selector';
 
 function Profile() {
   const { t } = useTranslate();
+  const store = useStore();
+  const userId = useSelector((state) => state.user.user._id);
 
+  useInit(
+    () => {
+      store.actions.profile.getProfile(userId);
+    },
+    [],
+    true
+  );
   return (
     <PageLayout>
       <UserPanel />

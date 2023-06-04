@@ -15,10 +15,11 @@ function LabelInput(props) {
         value={props.value}
         onChange={props.onChange}
         placeholder={props.name}
-        delay={1}
+        delay={0}
         theme={props.theme}
         id={props.id}
         type={props.type}
+        name={props.id}
       />
     </div>
   );
