@@ -16,7 +16,7 @@ function LabelInput(props) {
         onChange={props.onChange}
         placeholder={props.name}
         delay={1}
-        theme={'big'}
+        theme={props.theme}
         id={props.id}
         type={props.type}
       />

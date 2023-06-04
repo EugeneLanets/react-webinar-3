@@ -5,6 +5,7 @@ import LoginButton from '../../components/login-button';
 import useSelector from '../../hooks/use-selector';
 import useStore from '../../hooks/use-store';
 import { useCallback } from 'react';
+import ProfileLink from '../../components/profile-link';
 
 function UserPanel() {
   const store = useStore();
@@ -24,12 +25,8 @@ function UserPanel() {
   const buttonText = select.isAuth ? 'button.logout' : 'button.login';
   const callback = select.isAuth ? callbacks.onSignOut : callbacks.onSignIn;
   return (
-    <SideLayout side={'end'} padding={'medium'}>
-      {select.isAuth ? (
-        <Link to={'/profile'} key={'profile'}>
-          {select.userName}
-        </Link>
-      ) : null}
+    <SideLayout side={'end'} padding={'medium'} gap={true}>
+      <ProfileLink show={select.isAuth} userName={select.userName} />
       <LoginButton text={t(buttonText)} onNavigate={callback} />
     </SideLayout>
   );

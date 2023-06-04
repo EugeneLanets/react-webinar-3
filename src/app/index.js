@@ -7,7 +7,7 @@ import Login from './login';
 import useInit from '../hooks/use-init';
 import useStore from '../hooks/use-store';
 import Profile from './profile';
-import AuthRoot from '../components/AuthRoot';
+import AuthRoot from '../components/auth-root';
 
 /**
  * Приложение

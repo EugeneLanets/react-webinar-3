@@ -18,6 +18,7 @@ function LoginForm() {
     password: state.user.credentials.password,
     error: state.user.error,
     waiting: state.user.waiting,
+    isAuth: state.user.isAuth,
   }));
 
   const callbacks = {
@@ -61,7 +62,9 @@ function LoginForm() {
           {select.error ? (
             <div className={cn('error')}>{select.error}</div>
           ) : null}
-          <button type={'submit'}>{t('button.loginForm')}</button>
+          <button type={'submit'} disabled={select.isAuth}>
+            {t('button.loginForm')}
+          </button>
         </form>
       </ServicePageLayout>
     </Spinner>
