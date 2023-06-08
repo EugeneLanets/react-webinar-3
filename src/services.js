@@ -1,9 +1,8 @@
-import APIService from "./api";
-import Store from "./store";
-import createStoreRedux from "./store-redux";
+import APIService from './api';
+import Store from './store';
+import createStoreRedux from './store-redux';
 
 class Services {
-
   constructor(config) {
     this.config = config;
   }
@@ -33,7 +32,7 @@ class Services {
   /**
    * Redux store
    */
-  get redux(){
+  get redux() {
     if (!this._redux) {
       this._redux = createStoreRedux(this, this.config.redux);
     }
