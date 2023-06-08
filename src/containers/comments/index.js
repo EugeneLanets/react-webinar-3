@@ -3,6 +3,7 @@ import listToTree from '../../utils/list-to-tree';
 import treeToList from '../../utils/tree-to-list';
 import checkParentType from '../../utils/check-parent-type';
 import Comment from '../../components/comment';
+import SectionLayout from '../../components/section-layout';
 
 function Comments() {
   const select = useSelectorRedux((state) => ({
@@ -14,15 +15,20 @@ function Comments() {
 
   const list = treeToList(tree, (item, level) => ({
     ...item,
+    dateCreate: new Date(item.dateCreate),
     level,
   }));
 
   return (
     <>
-      <h2>Комментарии</h2>
-      {list.map((comment) => (
-        <Comment key={comment._id} comment={comment} />
-      ))}
+      <SectionLayout
+        padding={'large'}
+        title={`Комментарии (${select.comments.length})`}
+      >
+        {list.map((comment) => (
+          <Comment key={comment._id} comment={comment} />
+        ))}
+      </SectionLayout>
     </>
   );
 }

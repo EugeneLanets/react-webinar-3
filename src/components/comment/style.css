@@ -1,4 +1,30 @@
 .Comment {
   --left: 0px;
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  grid-template-columns: auto auto 1fr;
+  grid-template-areas: 'name datetime .' 'text text text' '. . .';
+  gap: 10px;
   margin-left: var(--left);
+}
+
+.Comment-name {
+  grid-area: name;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.Comment-datetime {
+  grid-area: datetime;
+  color: #666666;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.Comment-text {
+  grid-area: text;
+  font-size: 14px;
+  line-height: 16px;
 }
