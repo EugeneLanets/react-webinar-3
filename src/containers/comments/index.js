@@ -23,6 +23,8 @@ function Comments() {
     level,
   }));
 
+  const counter = list.reduce((acc, item) => acc + (item.isDeleted ? 0 : 1), 0);
+
   const callbacks = {
     onAnswer: (id) => {
       setAddForm(id);
@@ -31,10 +33,7 @@ function Comments() {
 
   return (
     <>
-      <SectionLayout
-        padding={'large'}
-        title={`Комментарии (${select.comments.length})`}
-      >
+      <SectionLayout padding={'large'} title={`Комментарии (${counter})`}>
         {list.map((comment) => (
           <Comment
             key={comment._id}
