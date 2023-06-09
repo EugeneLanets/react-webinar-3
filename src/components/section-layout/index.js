@@ -7,7 +7,7 @@ function SectionLayout({ title, children, padding }) {
   const cn = bem('SectionLayout');
   return (
     <section className={cn({ padding })}>
-      <h2 className={cn('title')}>{title}</h2>
+      <h3 className={cn('title')}>{title}</h3>
       {children}
     </section>
   );

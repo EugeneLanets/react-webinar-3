@@ -1,10 +1,7 @@
 import './style.css';
-import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
-import CommentForm from '../comment-form';
-
-function Comment(props) {
-  const style = { '--left': `${props.comment.level * 30}px` };
+import PropTypes from 'prop-types';
+function CommentArticle(props) {
   const cn = bem('Comment');
 
   const options = {
@@ -14,13 +11,12 @@ function Comment(props) {
     },
   };
 
-  console.log(props.comment.isDeleted);
   const formattedDate = props.comment.dateCreate
     .toLocaleString('ru', options.date)
     .replace(' г.', '');
 
   return (
-    <article key={props.comment._id} style={style} className={cn()}>
+    <article key={props.comment._id} className={cn()}>
       {props.comment.isDeleted ? (
         <p className={cn('deleted')}>(Комментарий удалён)</p>
       ) : (
@@ -44,12 +40,11 @@ function Comment(props) {
           </footer>
         </>
       )}
-      {props.showForm ? <CommentForm title={'Новый ответ'} /> : null}
     </article>
   );
 }
-Comment.propTypes = {
-  showForm: PropTypes.bool,
+
+CommentArticle.propTypes = {
   onAnswer: PropTypes.func,
   comment: PropTypes.shape({
     _id: PropTypes.string,
@@ -65,4 +60,4 @@ Comment.propTypes = {
     }),
   }),
 };
-export default Comment;
+export default CommentArticle;

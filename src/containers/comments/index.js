@@ -2,13 +2,13 @@ import { useSelector as useSelectorRedux } from 'react-redux';
 import listToTree from '../../utils/list-to-tree';
 import treeToList from '../../utils/tree-to-list';
 import checkParentType from '../../utils/check-parent-type';
-import Comment from '../../components/comment';
+import Comment from '../comment';
 import SectionLayout from '../../components/section-layout';
-import CommentForm from '../../components/comment-form';
 import { useState } from 'react';
+import ShowForm from '../ShowForm';
 
 function Comments() {
-  const [addForm, setAddForm] = useState(null);
+  const [addForm, setAddForm] = useState('article');
   const select = useSelectorRedux((state) => ({
     comments: state.comments.data?.items ?? [],
   }));
@@ -29,6 +29,13 @@ function Comments() {
     onAnswer: (id) => {
       setAddForm(id);
     },
+    onSubmit: (evt) => {
+      evt.preventDefault();
+      console.log('submit');
+    },
+    onReset: () => {
+      setAddForm('article');
+    },
   };
 
   return (
@@ -40,10 +47,15 @@ function Comments() {
             comment={comment}
             showForm={addForm === comment._id}
             onAnswer={callbacks.onAnswer}
+            onReset={callbacks.onReset}
           />
         ))}
 
-        {addForm === null ? <CommentForm title="Новый комментарий" /> : null}
+        <ShowForm
+          showForm={addForm === 'article'}
+          text={', чтобы иметь возможность комментировать'}
+          title={'Новый комментарий'}
+        />
       </SectionLayout>
     </>
   );
