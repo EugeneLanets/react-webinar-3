@@ -4,11 +4,15 @@ import treeToList from '../../utils/tree-to-list';
 import checkParentType from '../../utils/check-parent-type';
 import Comment from '../../components/comment';
 import SectionLayout from '../../components/section-layout';
+import CommentForm from '../../components/comment-form';
+import { useState } from 'react';
 
 function Comments() {
+  const [addForm, setAddForm] = useState(null);
   const select = useSelectorRedux((state) => ({
     comments: state.comments.data?.items ?? [],
   }));
+
   const tree = listToTree(select.comments, '_id', (item) =>
     checkParentType(item, '_type', 'comment')
   );
@@ -19,6 +23,12 @@ function Comments() {
     level,
   }));
 
+  const callbacks = {
+    onAnswer: (id) => {
+      setAddForm(id);
+    },
+  };
+
   return (
     <>
       <SectionLayout
@@ -26,8 +36,15 @@ function Comments() {
         title={`Комментарии (${select.comments.length})`}
       >
         {list.map((comment) => (
-          <Comment key={comment._id} comment={comment} />
+          <Comment
+            key={comment._id}
+            comment={comment}
+            showForm={addForm === comment._id}
+            onAnswer={callbacks.onAnswer}
+          />
         ))}
+
+        {addForm === null ? <CommentForm title="Новый комментарий" /> : null}
       </SectionLayout>
     </>
   );
