@@ -1,4 +1,3 @@
-import './style.css';
 import PropTypes from 'prop-types';
 import ShowForm from '../ShowForm';
 import CommentArticle from '../../components/comment-article';

@@ -2,7 +2,7 @@ import './style.css';
 import { cn as bem } from '@bem-react/classname';
 import PropTypes from 'prop-types';
 function CommentArticle(props) {
-  const cn = bem('Comment');
+  const cn = bem('CommentArticle');
 
   const options = {
     date: {
