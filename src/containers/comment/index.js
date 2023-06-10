@@ -29,6 +29,9 @@ function Comment(props) {
         render={render.cancelButton}
         text={', чтобы иметь возможность ответить'}
         title={'Новый ответ'}
+        onChange={props.onChange}
+        onSubmit={props.onSubmit}
+        newComment={props.newComment}
       />
     </CommentWrapper>
   );
@@ -37,6 +40,9 @@ Comment.propTypes = {
   showForm: PropTypes.bool,
   onAnswer: PropTypes.func,
   onReset: PropTypes.func,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+  newComment: PropTypes.string,
   comment: PropTypes.shape({
     _id: PropTypes.string,
     level: PropTypes.number,

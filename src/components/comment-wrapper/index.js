@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function CommentWrapper(props) {
   const max = 5;
   const level = props.level > max ? max : props.level;
-  const style = { 'margin-left': `${level * 30}px` };
+  const style = { marginLeft: `${level * 30}px` };
 
   return (
     <div style={style} className={'CommentWrapper'}>

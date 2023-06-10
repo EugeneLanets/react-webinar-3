@@ -9,6 +9,7 @@ import ShowForm from '../ShowForm';
 
 function Comments() {
   const [addForm, setAddForm] = useState('article');
+  const [newComment, setNewComment] = useState('');
   const select = useSelectorRedux((state) => ({
     comments: state.comments.data?.items ?? [],
   }));
@@ -35,6 +36,10 @@ function Comments() {
     },
     onReset: () => {
       setAddForm('article');
+      setNewComment('');
+    },
+    onChange: (evt) => {
+      setNewComment(evt.target.value);
     },
   };
 
@@ -48,6 +53,9 @@ function Comments() {
             showForm={addForm === comment._id}
             onAnswer={callbacks.onAnswer}
             onReset={callbacks.onReset}
+            onChange={callbacks.onChange}
+            onSubmit={callbacks.onSubmit}
+            newComment={newComment}
           />
         ))}
 
@@ -55,6 +63,9 @@ function Comments() {
           showForm={addForm === 'article'}
           text={', чтобы иметь возможность комментировать'}
           title={'Новый комментарий'}
+          onChange={callbacks.onChange}
+          onSubmit={callbacks.onSubmit}
+          newComment={newComment}
         />
       </SectionLayout>
     </>
