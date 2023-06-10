@@ -1,4 +1,4 @@
-import { useSelector as useSelectorRedux } from 'react-redux';
+import { useDispatch, useSelector as useSelectorRedux } from 'react-redux';
 import listToTree from '../../utils/list-to-tree';
 import treeToList from '../../utils/tree-to-list';
 import checkParentType from '../../utils/check-parent-type';
@@ -6,13 +6,17 @@ import Comment from '../comment';
 import SectionLayout from '../../components/section-layout';
 import { useState } from 'react';
 import ShowForm from '../ShowForm';
+import { useParams } from 'react-router-dom';
+import commentsActions from '../../store-redux/comments/actions';
 
 function Comments() {
+  const dispatch = useDispatch();
   const [addForm, setAddForm] = useState('article');
   const [newComment, setNewComment] = useState('');
   const select = useSelectorRedux((state) => ({
     comments: state.comments.data?.items ?? [],
   }));
+  const params = useParams();
 
   const tree = listToTree(select.comments, '_id', (item) =>
     checkParentType(item, '_type', 'comment')
@@ -30,9 +34,17 @@ function Comments() {
     onAnswer: (id) => {
       setAddForm(id);
     },
-    onSubmit: (evt) => {
-      evt.preventDefault();
-      console.log('submit');
+    onSubmit: () => {
+      const isArticleChild = addForm === 'article';
+      const parent = {
+        _id: isArticleChild ? params.id : addForm,
+        _type: isArticleChild ? 'article' : 'comment',
+      };
+      const data = {
+        text: newComment,
+        parent,
+      };
+      dispatch(commentsActions.post(data));
     },
     onReset: () => {
       setAddForm('article');

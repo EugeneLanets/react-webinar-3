@@ -6,10 +6,17 @@ import PropTypes from 'prop-types';
 function CommentForm(props) {
   const cn = bem('CommentForm');
 
+  const callbacks = {
+    onSubmit: (evt) => {
+      evt.preventDefault();
+      props.onSubmit();
+    },
+  };
+
   return (
     <div className={cn()}>
       <h3 className={cn('title')}>{props.title}</h3>
-      <form onSubmit={props.onSubmit}>
+      <form onSubmit={callbacks.onSubmit}>
         <textarea
           className={cn('text')}
           value={props.newComment}
