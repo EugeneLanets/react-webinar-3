@@ -1,15 +1,11 @@
 import './style.css';
-
+import { cn as bem } from '@bem-react/classname';
 import PropTypes from 'prop-types';
 function CommentWrapper(props) {
-  const max = 5;
-  const level = props.level > max ? max : props.level;
-  const style = { marginLeft: `${level * 30}px` };
-
+  const max = 10;
+  const cn = bem('CommentWrapper');
   return (
-    <div style={style} className={'CommentWrapper'}>
-      {props.children}
-    </div>
+    <div className={cn({ reset: props.level > max })}>{props.children}</div>
   );
 }
 

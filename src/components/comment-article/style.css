@@ -20,6 +20,10 @@
   font-weight: 700;
 }
 
+.CommentArticle-name_auth {
+  color: #666;
+}
+
 .CommentArticle-datetime {
   color: #666666;
 }

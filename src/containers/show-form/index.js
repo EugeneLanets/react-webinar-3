@@ -12,6 +12,8 @@ function ShowForm(props) {
         onChange={props.onChange}
         onSubmit={props.onSubmit}
         newComment={props.newComment}
+        shouldFocus={props.shouldFocus}
+        onUnmount={props.onUnmount}
       />
     ),
 
@@ -21,6 +23,8 @@ function ShowForm(props) {
         to={'/login'}
         link={'Войдите'}
         render={props.render}
+        shouldFocus={props.shouldFocus}
+        onUnmount={props.onUnmount}
       />
     ),
   };
@@ -37,10 +41,13 @@ ShowForm.propTypes = {
   newComment: PropTypes.string,
   text: PropTypes.string,
   title: PropTypes.string,
+  shouldFocus: PropTypes.bool,
+  onUnmount: PropTypes.func,
 };
 
 ShowForm.defaulProps = {
   render: () => null,
+  onUnmount: () => {},
 };
 
 export default ShowForm;

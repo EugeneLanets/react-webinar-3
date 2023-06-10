@@ -1,8 +1,10 @@
 import './style.css';
 import { cn as bem } from '@bem-react/classname';
 import PropTypes from 'prop-types';
+import useSelector from '../../hooks/use-selector';
 function CommentArticle(props) {
   const cn = bem('CommentArticle');
+  const userAuth = useSelector((state) => state.session.exists);
 
   const options = {
     date: {
@@ -11,18 +13,20 @@ function CommentArticle(props) {
     },
   };
 
-  const formattedDate = props.comment.dateCreate
+  const date = new Date(props.comment.dateCreate);
+
+  const formattedDate = date
     .toLocaleString('ru', options.date)
     .replace(' г.', '');
 
   return (
-    <article key={props.comment._id} className={cn()}>
+    <article key={props.comment._id} className={cn()} id={props.comment._id}>
       {props.comment.isDeleted ? (
         <p className={cn('deleted')}>(Комментарий удалён)</p>
       ) : (
         <>
           <header className={cn('head')}>
-            <div className={cn('name')}>
+            <div className={cn('name', { auth: userAuth })}>
               {props.comment.author.profile.name}
             </div>
             <time className={cn('datetime')}>{formattedDate}</time>
@@ -51,7 +55,7 @@ CommentArticle.propTypes = {
     level: PropTypes.number,
     text: PropTypes.string,
     isDeleted: PropTypes.bool,
-    dateCreate: PropTypes.instanceOf(Date),
+    dateCreate: PropTypes.string,
     author: PropTypes.shape({
       _id: PropTypes.string,
       profile: PropTypes.shape({

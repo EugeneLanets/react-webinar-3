@@ -1,53 +1,66 @@
 import PropTypes from 'prop-types';
-import ShowForm from '../ShowForm';
+import ShowForm from '../show-form';
 import CommentArticle from '../../components/comment-article';
 import CommentWrapper from '../../components/comment-wrapper';
 
 function Comment(props) {
+  const level = props.level + 1;
   const callbacks = {
-    onSubmit: (evt) => {
-      evt.preventDefault();
-      console.log('submit');
+    onUnmount: () => {
+      const element = document.getElementById(props.comment._id);
+      if (element) {
+        element.scrollIntoView();
+      }
     },
-    onReset: props.onReset,
   };
 
-  const render = {
-    cancelButton: (cn) => (
-      <button type={'reset'} onClick={callbacks.onReset} className={cn}>
-        Отмена
-      </button>
-    ),
-  };
-
+  const showForm = props.showAnswer(props.comment._id);
+  const shoulRenderWrapper = props.comment.children.length !== 0 || showForm;
   return (
-    <CommentWrapper level={props.comment.level}>
-      <CommentArticle comment={props.comment} onAnswer={props.onAnswer} />
-      <ShowForm
-        showForm={props.showForm}
-        render={render.cancelButton}
-        text={', чтобы иметь возможность ответить'}
-        title={'Новый ответ'}
-        onChange={props.onChange}
-        onSubmit={props.onSubmit}
-        newComment={props.newComment}
+    <>
+      <CommentArticle
+        comment={props.comment}
+        onAnswer={props.onAnswer}
+        key={props.comment._id}
       />
-    </CommentWrapper>
+      {shoulRenderWrapper ? (
+        <CommentWrapper level={props.level}>
+          {props.comment.children
+            ? props.renderChildren(props.comment.children, level)
+            : null}
+          <ShowForm
+            showForm={showForm}
+            render={props.renderCancelButton}
+            text={', чтобы иметь возможность ответить'}
+            title={'Новый ответ'}
+            onChange={props.onChange}
+            onSubmit={props.onSubmit}
+            newComment={props.newComment}
+            shouldFocus={true}
+            onUnmount={callbacks.onUnmount}
+          />
+        </CommentWrapper>
+      ) : null}
+    </>
   );
 }
 Comment.propTypes = {
-  showForm: PropTypes.bool,
+  level: PropTypes.number,
   onAnswer: PropTypes.func,
   onReset: PropTypes.func,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
+  showAnswer: PropTypes.func,
   newComment: PropTypes.string,
+  renderCancelButton: PropTypes.func,
+  renderChildren: PropTypes.func,
   comment: PropTypes.shape({
     _id: PropTypes.string,
     level: PropTypes.number,
     text: PropTypes.string,
     isDeleted: PropTypes.bool,
-    dateCreate: PropTypes.instanceOf(Date),
+    dateCreate: PropTypes.string,
+    children: PropTypes.array,
     author: PropTypes.shape({
       _id: PropTypes.string,
       profile: PropTypes.shape({

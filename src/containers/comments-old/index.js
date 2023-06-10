@@ -32,7 +32,6 @@ function Comments() {
 
   const callbacks = {
     onAnswer: (id) => {
-      console.log(id);
       setAddForm(id);
     },
     onSubmit: () => {
@@ -54,42 +53,23 @@ function Comments() {
     onChange: (evt) => {
       setNewComment(evt.target.value);
     },
-    showAnswer: (id) => id === addForm,
-  };
-
-  const render = {
-    cancelButton: (cn) => (
-      <button type={'reset'} onClick={callbacks.onReset} className={cn}>
-        Отмена
-      </button>
-    ),
-  };
-
-  const renderComments = (list, level = 0) => {
-    return list.map((comment) => {
-      return (
-        <Comment
-          comment={comment}
-          showAnswer={callbacks.showAnswer}
-          onAnswer={callbacks.onAnswer}
-          onReset={callbacks.onReset}
-          onChange={callbacks.onChange}
-          onSubmit={callbacks.onSubmit}
-          newComment={newComment}
-          renderCancelButton={render.cancelButton}
-          renderChildren={renderComments}
-          key={comment._id}
-          level={level + 1}
-          shouldFocus={callbacks.shouldFocus}
-        />
-      );
-    });
   };
 
   return (
     <>
       <SectionLayout padding={'large'} title={`Комментарии (${counter})`}>
-        {renderComments(tree)}
+        {list.map((comment) => (
+          <Comment
+            key={comment._id}
+            comment={comment}
+            showForm={addForm === comment._id}
+            onAnswer={callbacks.onAnswer}
+            onReset={callbacks.onReset}
+            onChange={callbacks.onChange}
+            onSubmit={callbacks.onSubmit}
+            newComment={newComment}
+          />
+        ))}
 
         <ShowForm
           showForm={addForm === 'article'}
@@ -98,7 +78,6 @@ function Comments() {
           onChange={callbacks.onChange}
           onSubmit={callbacks.onSubmit}
           newComment={newComment}
-          shouldFocus={false}
         />
       </SectionLayout>
     </>
