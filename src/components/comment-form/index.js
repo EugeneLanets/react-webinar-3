@@ -3,6 +3,7 @@ import './style.css';
 import { cn as bem } from '@bem-react/classname';
 import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
+import Field from '../field';
 
 function CommentForm(props) {
   const cn = bem('CommentForm');
@@ -27,12 +28,17 @@ function CommentForm(props) {
     <div className={cn()}>
       <h3 className={cn('title')}>{props.title}</h3>
       <form onSubmit={callbacks.onSubmit}>
-        <textarea
-          ref={ref}
-          className={cn('text')}
-          value={props.newComment}
-          onChange={props.onChange}
-        ></textarea>
+        <Field
+          margin={'small'}
+          error={props.error ? 'Не удалось оставить комментарий' : null}
+        >
+          <textarea
+            ref={ref}
+            className={cn('text')}
+            value={props.newComment}
+            onChange={props.onChange}
+          ></textarea>
+        </Field>
         <div className={cn('controls')}>
           <button type="submit" disabled={!props.newComment.length}>
             Отправить
@@ -51,11 +57,13 @@ CommentForm.propTypes = {
   onUnmount: PropTypes.func,
   newComment: PropTypes.string,
   shouldFocus: PropTypes.bool,
+  error: PropTypes.string,
 };
 
 CommentForm.defaultProps = {
   title: 'Написать комментарий',
   render: () => null,
   onUnmount: () => {},
+  error: null,
 };
 export default CommentForm;

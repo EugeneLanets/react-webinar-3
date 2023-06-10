@@ -33,6 +33,10 @@
   color: #555555;
 }
 
+.CommentArticle-text_empty {
+  color: #555;
+}
+
 .CommentArticle-answer {
   margin: 0;
   border: none;

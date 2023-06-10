@@ -19,6 +19,7 @@ function CommentArticle(props) {
     .toLocaleString('ru', options.date)
     .replace(' г.', '');
 
+  const isCommentEmpty = props.comment.text.trim() === '';
   return (
     <article key={props.comment._id} className={cn()} id={props.comment._id}>
       {props.comment.isDeleted ? (
@@ -32,7 +33,11 @@ function CommentArticle(props) {
             <time className={cn('datetime')}>{formattedDate}</time>
           </header>
           <main>
-            <div className={cn('text')}>{props.comment.text}</div>
+            <div className={cn('text', { empty: isCommentEmpty })}>
+              {isCommentEmpty
+                ? '(Текст комментария отсутствует)'
+                : props.comment.text}
+            </div>
           </main>
           <footer className={cn('footer')}>
             <button

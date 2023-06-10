@@ -14,6 +14,7 @@ function ShowForm(props) {
         newComment={props.newComment}
         shouldFocus={props.shouldFocus}
         onUnmount={props.onUnmount}
+        error={props.error}
       />
     ),
 
@@ -43,11 +44,13 @@ ShowForm.propTypes = {
   title: PropTypes.string,
   shouldFocus: PropTypes.bool,
   onUnmount: PropTypes.func,
+  error: PropTypes.string,
 };
 
 ShowForm.defaulProps = {
   render: () => null,
   onUnmount: () => {},
+  error: null,
 };
 
 export default ShowForm;

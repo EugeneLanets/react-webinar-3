@@ -11,7 +11,7 @@ export default {
 
       try {
         const res = await services.api.request({
-          url: `/api/v1//comments?fields=items(_id,text,dateCreate,author(profile(name)),parent(_id,_type),isDeleted),count&limit=*&search[parent]=${id}`,
+          url: `/api/v1/comments?fields=items(_id,text,dateCreate,author(profile(name)),parent(_id,_type),isDeleted),count&limit=*&search[parent]=${id}`,
         });
         // Товар загружен успешно
         dispatch({
@@ -20,14 +20,13 @@ export default {
         });
       } catch (e) {
         //Ошибка загрузки
-        dispatch({ type: 'comments/load-error' });
+        dispatch({ type: 'comments/load-error', payload: { error: e } });
       }
     };
   },
 
   post: (data) => async (dispatch, getState, services) => {
-    const oldComments = getState().comments.data;
-    dispatch({ type: 'comments/load-start' });
+    dispatch({ type: 'comments/post-start' });
 
     try {
       const res = await services.api.request({
@@ -37,17 +36,13 @@ export default {
       });
       // Товар загружен успешно
       dispatch({
-        type: 'comments/load-success',
+        type: 'comments/post-success',
         payload: {
-          data: {
-            count: oldComments.count + 1,
-            items: [...oldComments.items, res.data.result],
-          },
+          item: res.data.result,
         },
       });
     } catch (e) {
-      //Ошибка загрузки
-      dispatch({ type: 'comments/load-error' });
+      dispatch({ type: 'comments/post-error', payload: { error: e } });
     }
   },
 };

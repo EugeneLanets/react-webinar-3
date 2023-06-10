@@ -38,6 +38,7 @@ function Comment(props) {
             newComment={props.newComment}
             shouldFocus={true}
             onUnmount={callbacks.onUnmount}
+            error={props.error}
           />
         </CommentWrapper>
       ) : null}
@@ -45,6 +46,7 @@ function Comment(props) {
   );
 }
 Comment.propTypes = {
+  error: PropTypes.oneOf([PropTypes.string, null]),
   level: PropTypes.number,
   onAnswer: PropTypes.func,
   onReset: PropTypes.func,

@@ -15,6 +15,7 @@ function Comments() {
   const [newComment, setNewComment] = useState('');
   const select = useSelectorRedux((state) => ({
     comments: state.comments.data?.items ?? [],
+    error: state.comments.error,
   }));
   const params = useParams();
 
@@ -32,7 +33,6 @@ function Comments() {
 
   const callbacks = {
     onAnswer: (id) => {
-      console.log(id);
       setAddForm(id);
     },
     onSubmit: () => {
@@ -81,6 +81,7 @@ function Comments() {
           key={comment._id}
           level={level + 1}
           shouldFocus={callbacks.shouldFocus}
+          error={select.error?.message}
         />
       );
     });
@@ -99,6 +100,7 @@ function Comments() {
           onSubmit={callbacks.onSubmit}
           newComment={newComment}
           shouldFocus={false}
+          error={select.error?.message}
         />
       </SectionLayout>
     </>
