@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import useSelector from '../../hooks/use-selector';
 function CommentArticle(props) {
   const cn = bem('CommentArticle');
-  const userAuth = useSelector((state) => state.session.exists);
-
+  const userId = useSelector((state) => state.session.user?._id);
+  const userAuth = userId === props.comment.author._id;
   const options = {
     date: {
       dateStyle: 'long',
