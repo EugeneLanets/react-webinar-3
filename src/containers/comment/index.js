@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import ShowForm from '../show-form';
 import CommentArticle from '../../components/comment-article';
 import CommentWrapper from '../../components/comment-wrapper';
+import useTranslate from '../../hooks/use-translate';
 
 function Comment(props) {
   const level = props.level + 1;
@@ -14,8 +15,10 @@ function Comment(props) {
     },
   };
 
+  const { t } = useTranslate();
+
   const showForm = props.showAnswer(props.comment._id);
-  const shoulRenderWrapper = props.comment.children.length !== 0 || showForm;
+  const shouldRenderWrapper = props.comment.children.length !== 0 || showForm;
   return (
     <>
       <CommentArticle
@@ -23,7 +26,7 @@ function Comment(props) {
         onAnswer={props.onAnswer}
         key={props.comment._id}
       />
-      {shoulRenderWrapper ? (
+      {shouldRenderWrapper ? (
         <CommentWrapper level={props.level}>
           {props.comment.children
             ? props.renderChildren(props.comment.children, level)
@@ -31,8 +34,8 @@ function Comment(props) {
           <ShowForm
             showForm={showForm}
             render={props.renderCancelButton}
-            text={', чтобы иметь возможность ответить'}
-            title={'Новый ответ'}
+            text={t('comment.reply.text')}
+            title={t('comment.answer')}
             onChange={props.onChange}
             onSubmit={props.onSubmit}
             newComment={props.newComment}

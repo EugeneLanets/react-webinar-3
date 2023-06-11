@@ -25,7 +25,7 @@ function ShouldLogin(props) {
         state={{ back: location.pathname }}
       >
         {props.link}
-      </Link>
+      </Link>{' '}
       {props.text}
       {props.render(cn('reset'))}
     </div>

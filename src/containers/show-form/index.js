@@ -2,8 +2,10 @@ import AuthCheck from '../auth-check';
 import CommentForm from '../../components/comment-form';
 import ShouldLogin from '../../components/should-login';
 import PropTypes from 'prop-types';
+import useTranslate from '../../hooks/use-translate';
 
 function ShowForm(props) {
+  const { t } = useTranslate();
   const renders = {
     ifTrue: () => (
       <CommentForm
@@ -22,7 +24,7 @@ function ShowForm(props) {
       <ShouldLogin
         text={props.text}
         to={'/login'}
-        link={'Войдите'}
+        link={t('comment.login.button')}
         render={props.render}
         shouldFocus={props.shouldFocus}
         onUnmount={props.onUnmount}

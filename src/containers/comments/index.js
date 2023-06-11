@@ -1,6 +1,5 @@
 import { useDispatch, useSelector as useSelectorRedux } from 'react-redux';
 import listToTree from '../../utils/list-to-tree';
-import treeToList from '../../utils/tree-to-list';
 import checkParentType from '../../utils/check-parent-type';
 import Comment from '../comment';
 import SectionLayout from '../../components/section-layout';
@@ -8,6 +7,7 @@ import { useState } from 'react';
 import ShowForm from '../show-form';
 import { useParams } from 'react-router-dom';
 import commentsActions from '../../store-redux/comments/actions';
+import useTranslate from '../../hooks/use-translate';
 
 function Comments() {
   const dispatch = useDispatch();
@@ -18,18 +18,17 @@ function Comments() {
     error: state.comments.error,
   }));
   const params = useParams();
+  const { t } = useTranslate();
 
-  const tree = listToTree(select.comments, '_id', (item) =>
-    checkParentType(item, '_type', 'comment')
-  );
-
-  const list = treeToList(tree, (item, level) => ({
-    ...item,
-    dateCreate: new Date(item.dateCreate),
-    level,
-  }));
-
-  const counter = list.reduce((acc, item) => acc + (item.isDeleted ? 0 : 1), 0);
+  const data = {
+    commentsTree: listToTree(select.comments, '_id', (item) =>
+      checkParentType(item, '_type', 'comment')
+    ),
+    commentsCount: select.comments.reduce(
+      (acc, comment) => acc + (comment.isDeleted ? 0 : 1),
+      0
+    ),
+  };
 
   const callbacks = {
     onAnswer: (id) => {
@@ -60,42 +59,44 @@ function Comments() {
   const render = {
     cancelButton: (cn) => (
       <button type={'reset'} onClick={callbacks.onReset} className={cn}>
-        Отмена
+        {t('comment.button.cancel')}
       </button>
     ),
-  };
-
-  const renderComments = (list, level = 0) => {
-    return list.map((comment) => {
-      return (
-        <Comment
-          comment={comment}
-          showAnswer={callbacks.showAnswer}
-          onAnswer={callbacks.onAnswer}
-          onReset={callbacks.onReset}
-          onChange={callbacks.onChange}
-          onSubmit={callbacks.onSubmit}
-          newComment={newComment}
-          renderCancelButton={render.cancelButton}
-          renderChildren={renderComments}
-          key={comment._id}
-          level={level + 1}
-          shouldFocus={callbacks.shouldFocus}
-          error={select.error?.message}
-        />
-      );
-    });
+    comments: (list, level = 0) => {
+      return list.map((comment) => {
+        return (
+          <Comment
+            comment={comment}
+            showAnswer={callbacks.showAnswer}
+            onAnswer={callbacks.onAnswer}
+            onReset={callbacks.onReset}
+            onChange={callbacks.onChange}
+            onSubmit={callbacks.onSubmit}
+            newComment={newComment}
+            renderCancelButton={render.cancelButton}
+            renderChildren={render.comments}
+            key={comment._id}
+            level={level + 1}
+            shouldFocus={callbacks.shouldFocus}
+            error={select.error?.message}
+          />
+        );
+      });
+    },
   };
 
   return (
     <>
-      <SectionLayout padding={'large'} title={`Комментарии (${counter})`}>
-        {renderComments(tree)}
+      <SectionLayout
+        padding={'large'}
+        title={`${t('comments')} (${data.commentsCount})`}
+      >
+        {render.comments(data.commentsTree)}
 
         <ShowForm
           showForm={addForm === 'article'}
-          text={', чтобы иметь возможность комментировать'}
-          title={'Новый комментарий'}
+          text={t('comment.login.text')}
+          title={t('comment.new')}
           onChange={callbacks.onChange}
           onSubmit={callbacks.onSubmit}
           newComment={newComment}

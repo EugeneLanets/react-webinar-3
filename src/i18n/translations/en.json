@@ -20,5 +20,17 @@
   "auth.password": "Password",
   "auth.signIn": "Sign in",
   "session.signIn": "Sign In",
-  "session.signOut": "Sign Out"
+  "session.signOut": "Sign Out",
+  "comments": "Comments",
+  "comment.new": "New comment",
+  "comment.answer": "New reply",
+  "comment.login.text": "to comment",
+  "comment.reply.text": "to reply",
+  "comment.login.button": "Sign in",
+  "comment.reply": "Reply",
+  "comment.button.cancel": "Cancel",
+  "comment.button.submit": "Submit",
+  "comment.error": "Comment was not added",
+  "comment.deleted": "(Comment was deleted)",
+  "comment.empty": "(There is no comment text)"
 }

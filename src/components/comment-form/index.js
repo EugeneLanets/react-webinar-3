@@ -4,8 +4,10 @@ import { cn as bem } from '@bem-react/classname';
 import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 import Field from '../field';
+import useTranslate from '../../hooks/use-translate';
 
 function CommentForm(props) {
+  const { t } = useTranslate();
   const cn = bem('CommentForm');
   const ref = useRef();
   const callbacks = {
@@ -28,10 +30,7 @@ function CommentForm(props) {
     <div className={cn()}>
       <h3 className={cn('title')}>{props.title}</h3>
       <form onSubmit={callbacks.onSubmit}>
-        <Field
-          margin={'small'}
-          error={props.error ? 'Не удалось оставить комментарий' : null}
-        >
+        <Field margin={'small'} error={props.error ? t('comment.error') : null}>
           <textarea
             ref={ref}
             className={cn('text')}
@@ -41,7 +40,7 @@ function CommentForm(props) {
         </Field>
         <div className={cn('controls')}>
           <button type="submit" disabled={!props.newComment.length}>
-            Отправить
+            {t('comment.button.submit')}
           </button>
           {props.render()}
         </div>

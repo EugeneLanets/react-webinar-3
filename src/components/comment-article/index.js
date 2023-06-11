@@ -2,9 +2,11 @@ import './style.css';
 import { cn as bem } from '@bem-react/classname';
 import PropTypes from 'prop-types';
 import useSelector from '../../hooks/use-selector';
+import useTranslate from '../../hooks/use-translate';
 function CommentArticle(props) {
   const cn = bem('CommentArticle');
   const userId = useSelector((state) => state.session.user?._id);
+  const { t, lang } = useTranslate();
   const userAuth = userId === props.comment.author._id;
   const options = {
     date: {
@@ -16,14 +18,14 @@ function CommentArticle(props) {
   const date = new Date(props.comment.dateCreate);
 
   const formattedDate = date
-    .toLocaleString('ru', options.date)
+    .toLocaleString(lang, options.date)
     .replace(' г.', '');
 
   const isCommentEmpty = props.comment.text.trim() === '';
   return (
     <article key={props.comment._id} className={cn()} id={props.comment._id}>
       {props.comment.isDeleted ? (
-        <p className={cn('deleted')}>(Комментарий удалён)</p>
+        <p className={cn('deleted')}>{t('comment.deleted')}</p>
       ) : (
         <>
           <header className={cn('head')}>
@@ -34,9 +36,7 @@ function CommentArticle(props) {
           </header>
           <main>
             <div className={cn('text', { empty: isCommentEmpty })}>
-              {isCommentEmpty
-                ? '(Текст комментария отсутствует)'
-                : props.comment.text}
+              {isCommentEmpty ? t('comment.empty') : props.comment.text}
             </div>
           </main>
           <footer className={cn('footer')}>
@@ -44,7 +44,7 @@ function CommentArticle(props) {
               className={cn('answer')}
               onClick={() => props.onAnswer(props.comment._id)}
             >
-              Ответить
+              {t('comment.reply')}
             </button>
           </footer>
         </>
