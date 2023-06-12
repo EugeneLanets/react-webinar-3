@@ -36,12 +36,21 @@ function Comments() {
     },
     onSubmit: () => {
       const isArticleChild = addForm === 'article';
+      if (newComment.trim().length === 0) {
+        setNewComment('');
+        dispatch({
+          type: 'comments/post-error',
+          payload: { error: { message: t('comment.error.empty') } },
+        });
+        console.log(select.error);
+        return;
+      }
       const parent = {
         _id: isArticleChild ? params.id : addForm,
         _type: isArticleChild ? 'article' : 'comment',
       };
       const data = {
-        text: newComment,
+        text: newComment.trim(),
         parent,
       };
       dispatch(commentsActions.post(data));
@@ -51,6 +60,9 @@ function Comments() {
       setNewComment('');
     },
     onChange: (evt) => {
+      if (select.error) {
+        dispatch({ type: 'comments/reset-error' });
+      }
       setNewComment(evt.target.value);
     },
     showAnswer: (id) => id === addForm,

@@ -36,7 +36,12 @@ function reducer(state = initialState, action) {
     }
 
     case 'comments/post-error':
+      console.log('here');
+      console.log(action.payload);
       return { ...state, waiting: false, error: action.payload.error };
+
+    case 'comment/reset-error':
+      return { ...state, waiting: false, error: null };
 
     default:
       // Нет изменений

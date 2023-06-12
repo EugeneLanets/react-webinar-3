@@ -49,7 +49,7 @@ function Comment(props) {
   );
 }
 Comment.propTypes = {
-  error: PropTypes.oneOf([PropTypes.string, null]),
+  error: PropTypes.string,
   level: PropTypes.number,
   onAnswer: PropTypes.func,
   onReset: PropTypes.func,

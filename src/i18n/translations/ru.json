@@ -33,6 +33,7 @@
   "comment.button.cancel": "Отмена",
   "comment.button.submit": "Отправить",
   "comment.error": "Не удалось оставить комментарий",
+  "comment.error.empty": "Невозможно отправить пустой комментарий",
   "comment.deleted": "(Комментарий удалён)",
   "comment.empty": "(Текст комментария отсутствует)"
 }

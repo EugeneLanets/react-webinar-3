@@ -31,6 +31,7 @@
   "comment.button.cancel": "Cancel",
   "comment.button.submit": "Submit",
   "comment.error": "Comment was not added",
+  "comment.error.empty": "Unable to send empty comment",
   "comment.deleted": "(Comment was deleted)",
   "comment.empty": "(There is no comment text)"
 }
