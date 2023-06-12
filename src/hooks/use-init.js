@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import useTranslate from './use-translate';
 
 /**
  * Хук для асинхронных расчётов, которые будут исполнены при первом рендере или изменении depends.
@@ -7,6 +8,7 @@ import { useEffect } from 'react';
  * @param options {{backForward}}
  */
 export default function useInit(initFunc, depends = [], backForward = false) {
+  const { lang } = useTranslate();
   useEffect(() => {
     initFunc(false);
     // Если в истории браузера меняются только search-параметры, то react-router не оповестит
@@ -18,5 +20,5 @@ export default function useInit(initFunc, depends = [], backForward = false) {
         window.removeEventListener('popstate', initFunc);
       };
     }
-  }, depends);
+  }, [lang, ...depends]);
 }

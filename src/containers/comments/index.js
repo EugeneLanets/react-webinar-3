@@ -6,7 +6,7 @@ import SectionLayout from '../../components/section-layout';
 import { useState } from 'react';
 import ShowForm from '../show-form';
 import { useParams } from 'react-router-dom';
-import commentsActions from '../../store-redux/comments/actions';
+import commentsActions from '../../services/store-redux/comments/actions';
 import useTranslate from '../../hooks/use-translate';
 
 function Comments() {

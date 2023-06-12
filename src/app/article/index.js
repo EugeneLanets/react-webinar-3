@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import useStore from '../../hooks/use-store';
 import useTranslate from '../../hooks/use-translate';
@@ -12,8 +12,8 @@ import LocaleSelect from '../../containers/locale-select';
 import TopHead from '../../containers/top-head';
 import { useDispatch, useSelector as useSelectorRedux } from 'react-redux';
 import shallowequal from 'shallowequal';
-import articleActions from '../../store-redux/article/actions';
-import commentsActions from '../../store-redux/comments/actions';
+import articleActions from '../../services/store-redux/article/actions';
+import commentsActions from '../../services/store-redux/comments/actions';
 import Comments from '../../containers/comments';
 
 function Article() {
