@@ -10,6 +10,7 @@ import listToTree from '../../utils/list-to-tree';
 
 function CatalogFilter() {
   const store = useStore();
+  const { t, lang } = useTranslate();
 
   const select = useSelector((state) => ({
     sort: state.catalog.params.sort,
@@ -41,16 +42,16 @@ function CatalogFilter() {
   const options = {
     sort: useMemo(
       () => [
-        { value: 'order', title: 'По порядку' },
-        { value: 'title.ru', title: 'По именованию' },
-        { value: '-price', title: 'Сначала дорогие' },
-        { value: 'edition', title: 'Древние' },
+        { value: 'order', title: t('sort.order') },
+        { value: 'title.ru', title: t('sort.name') },
+        { value: '-price', title: t('sort.price.expensive') },
+        { value: 'edition', title: t('sort.ancient') },
       ],
-      []
+      [lang]
     ),
     categories: useMemo(
       () => [
-        { value: '', title: 'Все' },
+        { value: '', title: t('categories.all') },
         ...treeToList(listToTree(select.categories), (item, level) => ({
           value: item._id,
           title: '- '.repeat(level) + item.title,
@@ -59,8 +60,6 @@ function CatalogFilter() {
       [select.categories]
     ),
   };
-
-  const { t } = useTranslate();
 
   return (
     <SideLayout padding="medium">
